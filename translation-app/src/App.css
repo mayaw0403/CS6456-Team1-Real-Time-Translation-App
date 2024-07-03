@@ -299,3 +299,22 @@
     opacity: 1;
     right: 0;
 }
+.logout-btn {
+    background-color: #ff4b5c;
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-left: auto;
+}
+.logout-button:hover {
+    background-color: #ff6b7c;
+}
+
+.logout-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
