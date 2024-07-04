@@ -1,12 +1,38 @@
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import MessageForm from "./MessageForm";
+import { useEffect } from "react";
 
 const ChatFeed = (props) => {
     const { chats, activeChat, userName, messages } = props;
 
     const chat = chats && chats[activeChat];
 
+    
+
+    useEffect(() => {
+
+        // Ensure googleTranslateElementInit is defined globally
+        window.googleTranslateElementInit = function() {
+            new window.google.translate.TranslateElement(
+                { pageLanguage: 'en' },
+                'google_translate_element'
+            );
+        };
+
+        // Load Google Translate API script
+        const script = document.createElement("script");
+        script.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
+        script.async = true;
+        document.head.appendChild(script);
+
+        return () => {
+            // Clean up if needed
+            document.head.removeChild(script);
+            window.googleTranslateElementInit = null; // Optional cleanup
+        };
+    }, [activeChat]);
+    
     const handleLogout = () => {
         localStorage.removeItem("username");
         localStorage.removeItem("password");
@@ -78,6 +104,7 @@ const ChatFeed = (props) => {
                 <div className="chat-subtitle">
                     {chat.people.map((person) => ` ${person.person.username}`)}
                 </div>
+                <div id="google_translate_element"></div> 
             </div>
             {renderMessages()}
             <div style={{ height: "100px" }} />
