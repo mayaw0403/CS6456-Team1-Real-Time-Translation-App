@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const GoogleTranslate = () => {
   useEffect(() => {
-    // Ensure googleTranslateElementInit is defined globally
+    // Define the translate initialization function globally
     window.googleTranslateElementInit = function() {
       new window.google.translate.TranslateElement(
         { pageLanguage: 'en' },
@@ -16,10 +16,13 @@ const GoogleTranslate = () => {
     script.async = true;
     document.head.appendChild(script);
 
+    // Cleanup function
     return () => {
-      // Clean up if needed
+      // Remove the script element from the DOM
       document.head.removeChild(script);
-      window.googleTranslateElementInit = null; // Optional cleanup
+      
+      // Optionally, nullify the global function instead of deleting
+      window.googleTranslateElementInit = null;
     };
   }, []);
 
