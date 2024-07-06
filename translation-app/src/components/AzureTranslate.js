@@ -6,13 +6,13 @@ const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
 
     const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
   const [translation, setTranslation] = useState('');
-  const [language, setLanguage] = useState(defaultLanguage); // Default language to German
+  const [language, setLanguage] = useState(defaultLanguage);
 
   useEffect(() => {
     const fetchTranslation = async () => {
       if (message && language) {
         try {
-          const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en-US|${language}`);
+          const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en-GB|${language}`);
           console.log('Translation response:', response.data);
           setTranslation(response.data.responseData.translatedText);
         } catch (error) {
