@@ -2,6 +2,8 @@ import { ChatEngine } from 'react-chat-engine';
 
 import ChatFeed from './components/ChatFeed';
 import LoginForm from './components/LoginForm';
+import OptionsSettings from './components/ChatOptions';
+import ChatSettings from './components/ChatSettings';
 import './App.css';
 
 const projectID = 'f9be336d-56b8-4e3d-b4e2-9b58157fd2ad';
@@ -16,21 +18,9 @@ const App = () => {
 			userName={localStorage.getItem('username')}
 			userSecret={localStorage.getItem('password')}
 			onNewMessage={() => new Audio('https://chat-engine-assets.s3.amazonaws.com/click.mp3').play()}
-
-			// Render Custom Components
-			// renderChatList={(chatAppState) => {}}
-			// renderChatCard={(chat, index) => {}}
-			// renderNewChatForm={(creds) => {}}
 			renderChatFeed={(chatAppProps) => <ChatFeed {...chatAppProps} />}
-		// renderChatHeader={(chat) => {}}
-		// renderMessageBubble={(creds, chat, lastMessage, message, nextMessage) => {}}
-		// renderIsTyping={(typers) => {}}
-		// renderNewMessageForm={(creds, chatId) => {}}
-		// renderChatSettings={(chatAppState) => {}}
-		// renderChatSettingsTop={(creds, chat) => {}}
-		// renderPeopleSettings={(creds, chat) => {}}
-		// renderPhotosSettings={(chat) => {}}
-		// renderOptionsSettings={(creds, chat) => {}}
+            renderChatSettings={(chatAppState) => <ChatSettings {...chatAppState} />}
+			// renderOptionsSettings={(creds, chat) => <OptionsSettings />}
 		/>
 	);
 };

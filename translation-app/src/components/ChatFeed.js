@@ -5,10 +5,6 @@ import MessageForm from "./MessageForm";
 
 // import { Transaction } from "firebase/firestore";
 
-// const { GoogleGenerativeAI } = require("@google/generative-ai");
-// const genAI = new GoogleGenerativeAI(config.APIKEY);
-// const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
 const ChatFeed = (props) => {
     const { chats, activeChat, userName, messages } = props;
 
@@ -44,21 +40,6 @@ const ChatFeed = (props) => {
             const message = messages[key];
             const lastMessageKey = index === 0 ? null : keys[index - 1];
             const isMyMessage = userName === message.sender.username;
-            var translation = message;
-
-            // if (!isMyMessage) {
-            //     var prompt = `I am speaking to my doctor. Use json format to respond. The field topTranslation should contain only the best translation. Field idioms is an array of dictionaries that contain additional explainations for translated phrases that may not have direct translations like slang or idioms. Translate the following to German: ${message.text}.`
-            //     const result = await model.generateContent(prompt)
-            //     const response = result.response;
-            //     const text = response.text();
-            //     console.log(text)
-            //     const regex = /```json([\s\S]*?)```/;
-            //     const match = text.match(regex);
-            //     // console.log(match[1])
-            //     const json = JSON.parse(match[1]);
-            //     console.log(json.topTranslation);
-            //     translation.text = json.topTranslation;
-            // }
 
             return (
                 <div key={`msg_${index}`} style={{ width: "100%" }}>
@@ -74,7 +55,7 @@ const ChatFeed = (props) => {
                                 />
 
                                 <TheirTranslation
-                                    message={translation}
+                                    message={message}
                                     lastMessage={messages[lastMessageKey]}
                                 />
                             </div>
