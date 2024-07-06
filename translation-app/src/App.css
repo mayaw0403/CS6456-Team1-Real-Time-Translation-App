@@ -318,3 +318,43 @@
     justify-content: space-between;
     margin: 10px;
 }
+
+.dropdown {
+    width: 200px;
+    height: 40px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #E6E6FA;
+    position: relative;
+    margin-left: 1%;
+  }
+  
+  .dropdown select {
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    cursor: pointer;
+  }
+  
+  .dropdown::after {
+    content: "\25BC";
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background-color: #ccc;
+    cursor: pointer;
+    pointer-events: none;
+    transition: 0.25s all ease;
+  }
+  
+  .dropdown:hover::after {
+    color: white;
+    background-color: #5a5a5a;
+  }
+  

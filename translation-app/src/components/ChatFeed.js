@@ -3,6 +3,7 @@ import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
+import AzureTranslation from "./AzureTranslate"; // Import AzureTranslate component
 import GoogleTranslate from "./GoogleTranslate"; // Import GoogleTranslate component
 
 const ChatFeed = (props) => {
@@ -56,6 +57,11 @@ const ChatFeed = (props) => {
                   message={translation}
                   lastMessage={messages[lastMessageKey]}
                 />
+                <AzureTranslation 
+                    message={message}
+                    lastMessage={messages[lastMessageKey]} 
+                    defaultLanguage='de-DE'
+                />
               </div>
             )}
           </div>
@@ -87,7 +93,7 @@ const ChatFeed = (props) => {
         <div className="chat-subtitle">
           {chat.people.map((person) => ` ${person.person.username}`)}
         </div>
-        <GoogleTranslate /> {/* Render GoogleTranslate component */}
+       
       </div>
       {renderMessages()}
       <div style={{ height: "100px" }} />
