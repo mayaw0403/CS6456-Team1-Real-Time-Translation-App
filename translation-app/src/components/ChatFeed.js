@@ -3,8 +3,7 @@ import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
-import AzureTranslation from "./AzureTranslate"; // Import AzureTranslate component
-import GoogleTranslate from "./GoogleTranslate"; // Import GoogleTranslate component
+import AzureTranslation from "./AzureTranslate";
 
 const ChatFeed = (props) => {
   const { chats, activeChat, userName, messages } = props;
@@ -57,10 +56,10 @@ const ChatFeed = (props) => {
                   message={translation}
                   lastMessage={messages[lastMessageKey]}
                 />
-                <AzureTranslation 
+                <AzureTranslation
                     message={message}
-                    lastMessage={messages[lastMessageKey]} 
-                    defaultLanguage='de-DE'
+                    lastMessage={messages[lastMessageKey]}
+                    defaultLanguage='en-US'
                 />
               </div>
             )}

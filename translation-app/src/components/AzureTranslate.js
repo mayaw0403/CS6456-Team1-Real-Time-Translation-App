@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import languages from './languages'; // Import languages
 
-const Translation = ({ message, lastMessage, defaultLanguage }) => {
+const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
 
     const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
   const [translation, setTranslation] = useState('');
@@ -12,7 +12,7 @@ const Translation = ({ message, lastMessage, defaultLanguage }) => {
     const fetchTranslation = async () => {
       if (message && language) {
         try {
-          const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en|${language}`);
+          const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en-US|${language}`);
           console.log('Translation response:', response.data);
           setTranslation(response.data.responseData.translatedText);
         } catch (error) {
@@ -61,4 +61,4 @@ const Translation = ({ message, lastMessage, defaultLanguage }) => {
   );
 };
 
-export default Translation;
+export default AzureTranslation;
