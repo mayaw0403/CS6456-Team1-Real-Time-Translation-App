@@ -3,4 +3,13 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import { ChatEngineWrapper } from 'react-chat-engine'
+
+ReactDOM.render(
+  <React.StrictMode>
+    <ChatEngineWrapper>
+      <App />
+    </ChatEngineWrapper>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
