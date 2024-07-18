@@ -7,11 +7,25 @@
 }
 
 .ce-chat-list {
-    background-color: rgb(240, 240, 240) !important;
+    /* background-color: rgb(240, 240, 240) !important; */
+    background-color: white !important;
+    height: 100%;
+    max-height: 100vh;
+    overflow: hidden scroll;
+    border-right: 1px solid rgb(175, 175, 175);
+    font-family: Avenir;
 }
 
 .ce-chats-container {
-    background-color: rgb(240, 240, 240) !important;
+    width: 100%;
+    height: 100%;
+    border-radius: 0px 0px 24px 24px;
+}
+
+.ce-chat-form-container {
+    padding: 16px 14px;
+    background-color: white;
+    margin-left: 0px;
 }
 
 .ce-active-chat-card {
@@ -300,7 +314,6 @@
     right: 0;
 }
 .logout-btn {
-    background-color: #ff4b5c;
     color: white;
     border: none;
     padding: 8px 8px;
@@ -309,14 +322,22 @@
     border-radius: 5px;
     margin-left: auto;
 }
-.logout-button:hover {
-    background-color: #ff6b7c;
+
+.button-color {
+    background-color: #7554a0;
+}
+.button-color:hover {
+    opacity: 66%;
 }
 
-.logout-container {
-    display: flex;
-    justify-content: space-between;
-    margin: 10px;
+.user-settings-btn {
+    color: white;
+    border: none;
+    padding: 8px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-left: auto;
 }
 
 .dropdown {
@@ -325,12 +346,12 @@
     border: 1px solid #ccc;
     border-radius: 4px;
     overflow: hidden;
-    background-color: #E6E6FA;
+    background-color: #e6e6fa;
     position: relative;
     margin-left: 1%;
-  }
-  
-  .dropdown select {
+}
+
+.dropdown select {
     padding: 10px;
     width: 100%;
     height: 100%;
@@ -339,9 +360,9 @@
     background: transparent;
     background-image: none;
     cursor: pointer;
-  }
-  
-  .dropdown::after {
+}
+
+.dropdown::after {
     content: "\25BC";
     position: absolute;
     top: 0;
@@ -351,10 +372,12 @@
     cursor: pointer;
     pointer-events: none;
     transition: 0.25s all ease;
-  }
-  
-  .dropdown:hover::after {
+}
+
+.dropdown:hover::after {
     color: white;
     background-color: #5a5a5a;
-  }
-  
+}
+
+.logout-container {
+}
