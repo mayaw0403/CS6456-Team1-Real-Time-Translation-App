@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const UserSettings = () => {
     const [openUserSettings, setOpenUserSettings] = useState(false);
@@ -13,6 +13,22 @@ const UserSettings = () => {
     const handleCloseSettings = () => {
         setOpenUserSettings(false);
     };
+
+    const handleGenderChange = (e) => {
+        setGender(e.target.value);
+    };
+
+    const handleAgeChange = (e) => {
+        setAge(e.target.value);
+    };
+
+    useEffect(() => {
+        localStorage.setItem("gender", gender);
+    }, [gender]);
+
+    useEffect(() => {
+        localStorage.setItem("age", age);
+    }, [age]);
 
     return (
         <div className="user-settings-container">
@@ -29,19 +45,20 @@ const UserSettings = () => {
                         <form style={styles.form}>
                             <label style={styles.label}>
                                 Gender:
-                                <input
-                                    type="text"
-                                    value={gender}
-                                    onChange={(e) => setGender(e.target.value)}
+                                <select
                                     style={styles.input}
-                                />
+                                    onChange={handleGenderChange}
+                                >
+                                    <option value="female">Female</option>
+                                    <option value="male">Male</option>
+                                </select>
                             </label>
                             <label style={styles.label}>
                                 Age:
                                 <input
                                     type="number"
                                     value={age}
-                                    onChange={(e) => setAge(e.target.value)}
+                                    onChange={handleAgeChange}
                                     style={styles.input}
                                 />
                             </label>
