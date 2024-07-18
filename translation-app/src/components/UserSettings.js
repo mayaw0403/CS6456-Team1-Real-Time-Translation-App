@@ -49,6 +49,9 @@ const UserSettings = () => {
                                     style={styles.input}
                                     onChange={handleGenderChange}
                                 >
+                                    <option disabeled selected>
+                                        Select
+                                    </option>
                                     <option value="female">Female</option>
                                     <option value="male">Male</option>
                                 </select>
