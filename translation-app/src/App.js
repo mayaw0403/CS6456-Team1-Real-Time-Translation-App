@@ -26,7 +26,7 @@ const App = () => {
             <div style={styles.content}>
                 {selected === NavOptions.CHAT && (
                     <ChatEngine
-                        height="100vh"
+                        height="calc(90vh - 40px)"
                         width="100%"
                         projectID={projectID}
                         userName={localStorage.getItem("username")}
@@ -67,8 +67,12 @@ export default App;
 const styles = {
     container: {
         display: "flex",
-        height: "100vh",
-        width: "100vw",
+        height: "90vh",
+        width: "90vw",
+        backgroundColor: "rgba(255, 255, 255, 0.685)",
+        backdropFilter: "blur(19px) saturate(180%)",
+        borderRadius: "40px",
+        border: "1px solid rgba(255, 255, 255, 0.125)"
     },
     content: {
         flex: 1,
@@ -84,6 +88,6 @@ const styles = {
         height: "100%",
         overflow: "auto",
         padding: "20px",
-        boxSizing: "border-box",
+        boxSizing: "border-box"
     },
 };

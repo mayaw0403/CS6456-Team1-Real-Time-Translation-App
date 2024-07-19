@@ -14,6 +14,8 @@
     overflow: hidden scroll;
     border-right: 1px solid rgb(175, 175, 175);
     font-family: Avenir;
+    border-top-left-radius: 20px 20px;
+    border-bottom-left-radius: 20px 20px;
 }
 
 .ce-chats-container {
@@ -61,6 +63,8 @@
 
 .ce-settings {
     background-color: rgb(240, 240, 240) !important;
+    border-top-right-radius: 20px 20px;
+    border-bottom-right-radius: 20px 20px;
 }
 
 .ce-autocomplete-input {
@@ -84,12 +88,29 @@
 
 /* CUSTOM FEED */
 
+.ce-chat-engine {
+    background-color: rgba(17, 25, 40, 0) !important;
+    padding: 20px;
+}
+
+.ce-wrapper {
+    background-color: rgba(24, 17, 40, 0);
+}
+
+.ce-chat-feed-column {
+    background-color: rgba(17, 25, 40, 0);
+}
+
+.ce-chat-list-column {
+    background-color: rgba(17, 25, 40, 0);
+}
+
+
 .chat-feed {
     height: 100%;
     width: 100%;
     overflow: scroll;
     background-color: white;
-    border-radius: 25px;
 }
 
 .chat-title-container {
@@ -171,7 +192,7 @@
 .message-form-container {
     position: absolute;
     bottom: 0px;
-    width: calc(100% - 36px);
+    width: calc(100%);
     padding: 18px;
     background-color: rgb(240, 240, 240);
 }
@@ -235,22 +256,24 @@
 }
 
 .wrapper {
-    height: 100vh;
-    width: 100%;
+    height: 90vh;
+    width: 90vw;
     background: rgb(117, 84, 160);
     background: linear-gradient(90deg,
-            rgba(117, 84, 160, 1) 7%,
-            rgba(117, 84, 160, 1) 17%,
-            rgba(106, 95, 168, 1) 29%,
-            rgba(99, 103, 174, 1) 44%,
-            rgba(87, 116, 184, 1) 66%,
-            rgba(70, 135, 198, 1) 83%,
-            rgba(44, 163, 219, 1) 96%,
-            rgba(22, 188, 237, 1) 100%,
-            rgba(0, 212, 255, 1) 100%);
+            rgba(117, 84, 160, 0.685) 7%,
+            rgba(117, 84, 160, 0.685) 17%,
+            rgba(106, 95, 168, 0.685) 29%,
+            rgba(99, 103, 174, 0.685) 44%,
+            rgba(87, 116, 184, 0.685) 66%,
+            rgba(70, 135, 198, 0.685) 83%,
+            rgba(44, 163, 219, 0.685) 96%,
+            rgba(22, 188, 237, 0.685) 100%,
+            rgba( 0, 212, 255, 0.685) 100%);
     display: flex;
     justify-content: center;
     align-items: center;
+    backdrop-filter: blur(19px) saturate(180%);
+    border-radius: 40px;
 }
 
 .input {
@@ -336,6 +359,7 @@
 .button-color {
     background-color: #6e00ff;
 }
+
 .button-color:hover {
     opacity: 66%;
 }
@@ -355,6 +379,7 @@
     height: auto;
     display: block;
 }
+
 .user-settings-btn {
     background: none;
     color: white;
@@ -414,7 +439,7 @@
     height: 100vh;
     top: 0;
     left: 0;
-    z-index:9999;
+    z-index: 9999;
 }
 
 .box {
@@ -446,6 +471,7 @@
     border: 1px solid #999;
     font-size: 20px;
 }
+
 .navbar {
     display: flex;
     padding: 1rem;
@@ -461,4 +487,17 @@
     justify-content: flex-start;
     align-items: center;
     padding: 1rem;
+}
+
+body {
+    background-image: url("../public/pexels-8moments-1323550.jpg");
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
 }
