@@ -49,7 +49,7 @@
 
 .ce-primary-button {
     border-radius: 6px !important;
-    background-color: #7554a0 !important;
+    background-color: #6e00ff !important;
     position: relative;
     bottom: 1px;
 }
@@ -88,7 +88,8 @@
     height: 100%;
     width: 100%;
     overflow: scroll;
-    background-color: rgb(240, 240, 240);
+    background-color: white;
+    border-radius: 25px;
 }
 
 .chat-title-container {
@@ -190,6 +191,11 @@
     padding: 0px 18px;
     outline: none;
     font-size: 15px;
+}
+
+.user-avatar {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
 }
 
 .image-button {
@@ -314,6 +320,7 @@
     right: 0;
 }
 .logout-btn {
+    background: none;
     color: white;
     border: none;
     padding: 8px 8px;
@@ -324,13 +331,29 @@
 }
 
 .button-color {
-    background-color: #7554a0;
+    background-color: #6e00ff;
 }
 .button-color:hover {
     opacity: 66%;
 }
 
+.chat-btn {
+    background: none;
+    border: none;
+    padding: 8px 8px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 5px;
+    margin-left: auto;
+}
+
+.chat-icon {
+    width: 2rem;
+    height: auto;
+    display: block;
+}
 .user-settings-btn {
+    background: none;
     color: white;
     border: none;
     padding: 8px 8px;
@@ -379,5 +402,19 @@
     background-color: #5a5a5a;
 }
 
-.logout-container {
+.navbar {
+    display: flex;
+    padding: 1rem;
+}
+
+.bar {
+    display: flex;
+    flex-direction: column;
+    height: 930px;
+    background-color: #6e00ff;
+    border-radius: 25px;
+    width: 133px;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1rem;
 }

@@ -27,8 +27,8 @@ const ChatList = (props) => {
                         })}
                 <div style={styles.controlsContainer}>
                     <div style={styles.subContainer}>
-                        <UserSettings />
-                        <LogOut />
+                        {/* <UserSettings />
+                        <LogOut /> */}
                     </div>
                 </div>
             </div>

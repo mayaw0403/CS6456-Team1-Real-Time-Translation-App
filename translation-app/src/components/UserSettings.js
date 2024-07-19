@@ -1,18 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const UserSettings = () => {
-    const [openUserSettings, setOpenUserSettings] = useState(false);
-    const settingsRef = useRef(null);
-    const [gender, setGender] = useState();
-    const [age, setAge] = useState();
-
-    const handleOpenSettings = () => {
-        setOpenUserSettings(true);
-    };
-
-    const handleCloseSettings = () => {
-        setOpenUserSettings(false);
-    };
+    const [gender, setGender] = useState(localStorage.getItem("gender") || "");
+    const [age, setAge] = useState(localStorage.getItem("age") || "");
+    const username = localStorage.getItem("username");
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -22,59 +13,46 @@ const UserSettings = () => {
         setAge(e.target.value);
     };
 
-    useEffect(() => {
+    const handleSubmit = () => {
         localStorage.setItem("gender", gender);
-    }, [gender]);
-
-    useEffect(() => {
         localStorage.setItem("age", age);
-    }, [age]);
+    };
 
     return (
-        <div className="user-settings-container">
-            <button
-                onClick={handleOpenSettings}
-                className="user-settings-btn button-color"
-            >
-                Settings
-            </button>
-            {openUserSettings && (
-                <div style={styles.modalContainer}>
-                    <div ref={settingsRef} style={styles.content}>
-                        <h2>User Settings</h2>
-                        <form style={styles.form}>
-                            <label style={styles.label}>
-                                Gender:
-                                <select
-                                    style={styles.input}
-                                    onChange={handleGenderChange}
-                                >
-                                    <option disabeled selected>
-                                        Select
-                                    </option>
-                                    <option value="female">Female</option>
-                                    <option value="male">Male</option>
-                                </select>
-                            </label>
-                            <label style={styles.label}>
-                                Age:
-                                <input
-                                    type="number"
-                                    value={age}
-                                    onChange={handleAgeChange}
-                                    style={styles.input}
-                                />
-                            </label>
-                        </form>
-                        <button
-                            className="button-color logout-btn"
-                            onClick={handleCloseSettings}
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            )}
+        <div style={styles.content}>
+            <h2>User Settings</h2>
+            <h3 style={{ color: "#3e435d" }}>Welcome, {username}</h3>
+
+            <form style={styles.form}>
+                <label style={styles.label}>
+                    Gender
+                    <select
+                        style={styles.input}
+                        value={gender}
+                        onChange={handleGenderChange}
+                    >
+                        <option value="" disabled>
+                            Select
+                        </option>
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                    </select>
+                </label>
+                <label style={styles.label}>
+                    Age
+                    <input
+                        style={styles.input}
+                        type="number"
+                        value={age}
+                        onChange={handleAgeChange}
+                    />
+                </label>
+            </form>
+            <div>
+                <button onClick={handleSubmit} style={styles.submit}>
+                    Submit
+                </button>
+            </div>
         </div>
     );
 };
@@ -82,39 +60,50 @@ const UserSettings = () => {
 export default UserSettings;
 
 const styles = {
-    modalContainer: {
-        position: "fixed",
-        inset: "0",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 1000,
-    },
     content: {
         display: "flex",
         flexDirection: "column",
-        backgroundColor: "white",
+        backgroundColor: "#eef6fb",
         padding: "20px",
         borderRadius: "5px",
         boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
-        maxWidth: "80%",
-        maxHeight: "80%",
         overflow: "auto",
+        height: "100%",
     },
     form: {
         display: "flex",
         flexDirection: "column",
         margin: "3rem",
+        borderColor: "none",
     },
     label: {
+        display: "flex",
+        flexDirection: "column",
         fontFamily: "Avenir",
         margin: "1rem",
+        gap: "1rem",
     },
     input: {
         fontFamily: "Avenir",
         fontSize: "1rem",
         padding: "5px",
         marginLeft: "5px",
+        backgroundColor: "#f9f9f9",
+        width: "700px",
+        borderColor: "none",
+        borderRadius: "8px",
+        border: "none",
+        height: "53px",
+    },
+    submit: {
+        color: "white",
+        backgroundColor: "#6e00ff",
+        fontFamily: "Avenir",
+        fontSize: "1rem",
+        borderRadius: "8px",
+        border: "none",
+        width: "8rem",
+        height: "3rem",
+        transition: "background-color 0.3s ease",
     },
 };
