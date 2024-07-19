@@ -10,7 +10,7 @@ const { initializeApp } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 var mime = require("mime-types");
 var axios = require("axios");
-var config = require("./Config")
+var config = require("./Config");
 
 // Initialize firebase and firestore
 initializeApp();

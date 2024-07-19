@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@google/generative-ai": "^0.15.0",
+    "axios": "^1.7.2",
+    "firebase": "^10.12.4",
+    "firebase-functions": "^5.0.1",
+    "mime-type": "^4.0.0"
+  }
+}

@@ -13,41 +13,31 @@ import { connectFunctionsEmulator } from "firebase/functions";
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const functions = getFunctions(app);
-connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+// connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 const translateImage = httpsCallable(functions, "translateImage");
 const translateTextAtoB = httpsCallable(functions, "translateTextAtoB");
 
 const TheirTranslation = ({ lastMessage, message, activeChat }) => {
   const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
 
-  const [translation, setTranslation] = useState("Translating");
-  const [explanation, setExplanation] = useState("Explanation");
-  const [translating, setTranslating] = useState(true);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-
   // test parameters
   var language = `German`;
 
+  const [translation, setTranslation] = useState("Translating");
+  const [explanation, setExplanation] = useState("Explanation");
+  const [translating, setTranslating] = useState(true);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
-
-  const togglePopup = () => {
-    console.log("popup");
-    setIsOpen(!isOpen);
-  }
-
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {setIsHovered(true);};
+  const handleMouseLeave = () => {setIsHovered(false);};
   const divStyle = {
     float: 'left',
     backgroundColor: isHovered ? '#00AA00' : '#55FF55',
     marginLeft: '48px'
   };
+
+  const [isOpen, setIsOpen] = useState(false);
+  const togglePopup = () => {setIsOpen(!isOpen);}
 
   useEffect(() => {
     async function fetchData() {
@@ -63,7 +53,7 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
 
             console.log(resp);
             setTranslation(() => resp.data.translation);
-            setExplanation(() => resp.data.explanation);
+            setExplanation(() => "Images are transcribed and proved a direct translation.");
           } else {
             // messageId, chatId, genderA, ageA, genderB, ageB, descriptionB, language, message
             // const resp = await translateTextAtoB({
@@ -90,7 +80,7 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
     }
 
     fetchData();
-  });
+  }, []);
 
   return (
     <div className="message-row">
