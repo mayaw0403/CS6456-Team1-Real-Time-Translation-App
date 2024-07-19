@@ -6,7 +6,7 @@ import OptionsSettings from './components/ChatOptions';
 import ChatSettings from './components/ChatSettings';
 import './App.css';
 
-const projectID = 'f9be336d-56b8-4e3d-b4e2-9b58157fd2ad';
+const projectID = 'b34fc922-e972-4a15-8691-3aab22e55aa3';
 
 const App = () => {
 	if (!localStorage.getItem('username')) return <LoginForm />;

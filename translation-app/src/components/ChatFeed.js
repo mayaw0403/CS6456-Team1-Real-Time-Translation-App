@@ -1,15 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
 import AzureTranslation from "./AzureTranslate";
 
-// import { Transaction } from "firebase/firestore";
-
 const ChatFeed = (props) => {
   const { chats, activeChat, userName, messages } = props;
-
   const chat = chats && chats[activeChat];
 
   const handleLogout = () => {
@@ -57,6 +54,7 @@ const ChatFeed = (props) => {
                 <TheirTranslation
                   message={translation}
                   lastMessage={messages[lastMessageKey]}
+                  activeChat={activeChat}
                 />
                 <AzureTranslation
                     message={message}
