@@ -206,7 +206,7 @@
 
 .message-input {
     height: 40px;
-    width: calc(100% - 132px);
+    width: calc(100% - 120px);
     background-color: white;
     border: 1px solid white;
     padding: 0px 18px;
@@ -229,7 +229,7 @@
     height: 42px;
     background-color: white;
     border: 1px solid white;
-    padding: 0px 18px;
+    padding: 0px 10px;
     cursor: pointer;
 }
 
