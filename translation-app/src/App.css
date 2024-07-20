@@ -418,3 +418,11 @@
     align-items: center;
     padding: 1rem;
 }
+
+.translation-block {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}

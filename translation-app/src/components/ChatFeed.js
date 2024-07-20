@@ -1,16 +1,28 @@
-import React from "react";
+import {React, useEffect, useState} from "react";
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
+import HandleTranslation from "./HandleTranslation";
 import AzureTranslation from "./AzureTranslate";
+import { Collapse } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Collapsible from 'react-collapsible';
 
 // import { Transaction } from "firebase/firestore";
 
 const ChatFeed = (props) => {
     const { chats, activeChat, userName, messages } = props;
+    const [open, setOpen] = useState({});
 
     const chat = chats && chats[activeChat];
+
+    const handleToggle = (messageId) => {
+        setOpen(prevState => ({
+            ...prevState,
+            [messageId]: !prevState[messageId]
+        }));
+    };
     
 
     const renderReadReceipts = (message, isMyMessage) =>
@@ -41,24 +53,30 @@ const ChatFeed = (props) => {
 
             return (
                 <div key={`msg_${index}`} style={{ width: "100%" }}>
-                    <div className="message-block">
+                    <div className="message-block" >
                         {isMyMessage ? (
                             <MyMessage message={message} />
                         ) : (
                             <div>
-                                <TheirMessage
-                                    message={message}
-                                    lastMessage={messages[lastMessageKey]}
+                                <div onClick={() => handleToggle(message.id)}>
+                                <TheirMessage 
+                                message={message} 
+                                lastMessage={messages[lastMessageKey]} 
                                 />
-                                <TheirTranslation
-                                    message={translation}
-                                    lastMessage={messages[lastMessageKey]}
-                                />
-                                <AzureTranslation
-                                    message={message}
-                                    lastMessage={messages[lastMessageKey]}
-                                    defaultLanguage="en-US"
-                                />
+                                </div>
+                                 <Collapse in={open[message.id]}>
+                                 <div>
+                                    <TheirTranslation 
+                                        message={translation} 
+                                        lastMessage={messages[lastMessageKey]} 
+                                    />
+                                    <AzureTranslation
+                                        message={message}
+                                        lastMessage={messages[lastMessageKey]}
+                                        defaultLanguage="en-US"
+                                    />
+                                </div>
+                                </Collapse>
                             </div>
                         )}
                     </div>
