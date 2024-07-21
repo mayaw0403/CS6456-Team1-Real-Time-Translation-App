@@ -54,32 +54,37 @@ exports.translateImage = onCall(
   async (request) => {
     const { messageId, chatId, url, language } = request.data;
 
-    // gets the database
-    const index = `${chatId}${language}${messageId}`;
-    const messageDoc = await db.collection('translations').doc(index).get();
-    if (messageDoc.exists) {
-      console.log("found entry")
-      return messageDoc.data();
+    try {
+      // gets the database
+      const index = `${chatId}${language}${messageId}`;
+      const messageDoc = await db.collection('translations').doc(index).get();
+      if (messageDoc.exists) {
+        console.log("found entry")
+        return messageDoc.data();
+      }
+
+      let base64 = await urlContentToDataUri(url);
+      const mimeType = mime.lookup(url.split('?')[0]);
+
+      const image = {
+        inlineData: {
+          data: base64,
+          mimeType: mimeType,
+        },
+      };
+
+      console.log("translating image!")
+      const prompt = `What is this image of. Summarize the important details. The entire response should be in the language ${language}.`;
+      const result = await model.generateContent([prompt, image])
+      const response = result.response;
+      const text = response.text();
+      const json = { translation: text, explanation: "None" };
+      db.collection('translations').doc(index).set(json);
+      return { success: true, translation: text };
+
+    } catch (error) {
+      return { success: false, translation: "" };
     }
-
-    let base64 = await urlContentToDataUri(url);
-    const mimeType = mime.lookup(url.split('?')[0]);
-
-    const image = {
-      inlineData: {
-        data: base64,
-        mimeType: mimeType,
-      },
-    };
-
-    console.log("translating image!")
-    const prompt = `What is this image of. Summarize the important details. The entire response should be in the language ${language}.`;
-    const result = await model.generateContent([prompt, image])
-    const response = result.response;
-    const text = response.text();
-    const json = { translation: text, explanation: "None" };
-    db.collection('translations').doc(index).set(json);
-    return { translation: text };
   });
 
 // convert image to base64
@@ -110,14 +115,22 @@ async function translate(data, direction) {
 
 exports.translateTextAtoB = onCall({ cors: true },
   async (request) => {
-    const json = await translate(request.data, directionA);
-    return json;
+    try {
+      const json = await translate(request.data, directionA);
+      return { success: true, translation: json.translation, explanation: json.explanation };
+    } catch (error) {
+      return { success: false, translation: "", explanation: "" };
+    }
   }
 );
 
 exports.translateTextBtoA = onCall({ cors: true },
   async (request) => {
-    const json = await translate(request.data, directionB);
-    return json;
+    try {
+      const json = await translate(request.data, directionB);
+      return { success: true, translation: json.translation, explanation: json.explanation };
+    } catch (error) {
+      return { success: false, translation: "", explanation: "" };
+    }
   }
 );

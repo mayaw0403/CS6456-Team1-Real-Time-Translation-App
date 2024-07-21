@@ -52,9 +52,16 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
             });
 
             console.log(resp);
-            setTranslation(() => resp.data.translation);
-            setExplanation(() => "Images are transcribed and proved a direct translation.");
+            if (resp.data.success == false)
+            {
+              //translation failed
+            } else {
+              setTranslation(() => resp.data.translation);
+              setExplanation(() => "Images are transcribed and proved a direct translation.");
+              setTranslating(false);
+            }
           } else {
+            // test call
             // messageId, chatId, genderA, ageA, genderB, ageB, descriptionB, language, message
             // const resp = await translateTextAtoB({
             //   messageId: 0,
@@ -68,11 +75,16 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
             //   message: "I regret to inform you that you have cancer."
             // });
 
-            // console.log(resp);
-            // setTranslation(() => json.topTranslation);
+            if (resp.data.success == false)
+              {
+                //translation failed
+              } else {
+                setTranslation(() => resp.data.translation);
+                setExplanation(() => resp.data.explanation);
+                setTranslating(false);
+              }
           }
 
-          setTranslating(false);
         }
       } catch (error) {
         console.log(error);
