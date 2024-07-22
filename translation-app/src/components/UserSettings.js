@@ -1,6 +1,8 @@
 import React, { useState, useMemo, useEffect } from "react";
 import countryList from "react-select-country-list";
 import languages from "./languages";
+import gradient from "../gradient.png";
+import { Avatar } from "react-chat-engine";
 
 const UserSettings = () => {
     const username = localStorage.getItem("username");
@@ -33,66 +35,80 @@ const UserSettings = () => {
     return (
         <div style={styles.content}>
             <h2>User Settings</h2>
-            <h3 style={{ color: "#3e435d" }}>Welcome, {username}</h3>
-
+            <h3 style={{ color: "#3e435d", marginBottom: "2rem" }}>
+                Welcome, {username}!
+            </h3>
+            <div style={styles.center}>
+                <img src={gradient} alt="header" width="1000px"></img>
+            </div>
+            <div className="user-avatar">
+                <Avatar username={username} />
+            </div>
             <form style={styles.form}>
-                <label style={styles.label}>
-                    Gender
-                    <select
-                        style={styles.input}
-                        value={gender}
-                        onChange={handleGenderChange}
-                    >
-                        <option value="" disabled>
-                            Select
-                        </option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                    </select>
-                </label>
-                <label style={styles.label}>
-                    Age
-                    <input
-                        style={styles.input}
-                        type="number"
-                        value={age}
-                        onChange={handleAgeChange}
-                    />
-                </label>
-                <label style={styles.label}>
-                    Country
-                    <select
-                        style={styles.input}
-                        value={country}
-                        onChange={handleCountryChange}
-                    >
-                        <option value="" disabled>
-                            Select
-                        </option>
-                        {countryOptions.map((country, index) => (
-                            <option key={index} value={country.label}>
-                                {country.label}
-                            </option>
-                        ))}
-                    </select>
-                </label>
-                <label style={styles.label}>
-                    Language
-                    <select
-                        className="dropdown"
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        style={styles.input}
-                    >
-                        {Object.keys(languages).map((lang) => (
-                            <option key={lang} value={lang}>
-                                {languages[lang]}
-                            </option>
-                        ))}
-                    </select>
-                </label>
+                <div style={styles.row}>
+                    <div style={styles.column}>
+                        <label style={styles.label}>
+                            Gender
+                            <select
+                                style={styles.input}
+                                value={gender}
+                                onChange={handleGenderChange}
+                            >
+                                <option value="" disabled>
+                                    Select
+                                </option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                        </label>
+
+                        <label style={styles.label}>
+                            Age
+                            <input
+                                style={styles.input}
+                                type="number"
+                                value={age}
+                                onChange={handleAgeChange}
+                            />
+                        </label>
+                    </div>
+                    <div style={styles.column}>
+                        <label style={styles.label}>
+                            Country
+                            <select
+                                style={styles.input}
+                                value={country}
+                                onChange={handleCountryChange}
+                            >
+                                <option value="" disabled>
+                                    Select
+                                </option>
+                                {countryOptions.map((country, index) => (
+                                    <option key={index} value={country.label}>
+                                        {country.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <label style={styles.label}>
+                            Language
+                            <select
+                                className="dropdown"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                                style={styles.input}
+                            >
+                                {Object.keys(languages).map((lang) => (
+                                    <option key={lang} value={lang}>
+                                        {languages[lang]}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                    </div>
+                </div>
             </form>
-            <div>
+            <div style={styles.center}>
                 <button onClick={handleSubmit} style={styles.submit}>
                     Submit
                 </button>
@@ -133,7 +149,7 @@ const styles = {
         padding: "5px",
         marginLeft: "5px",
         backgroundColor: "#f9f9f9",
-        width: "700px",
+        width: "30rem",
         borderColor: "none",
         borderRadius: "8px",
         border: "none",
@@ -149,5 +165,19 @@ const styles = {
         width: "8rem",
         height: "3rem",
         transition: "background-color 0.10s ease",
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    column: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+    },
+    center: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     },
 };
