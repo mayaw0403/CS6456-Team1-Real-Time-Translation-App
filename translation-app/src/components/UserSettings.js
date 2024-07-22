@@ -1,10 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, } from "react";
 import languages from './languages';
+import { firebaseConfig } from "./Config"
+
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { initializeApp } from "firebase/app";
+import { connectFunctionsEmulator } from "firebase/functions";
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const functions = getFunctions(app);
+connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+const setProfile = httpsCallable(functions, "setProfile");
 
 const UserSettings = () => {
     const [gender, setGender] = useState(localStorage.getItem("gender") || "");
     const [age, setAge] = useState(localStorage.getItem("age") || "");
-    const [language, setLanguage] = useState("en-GB");
+    const [language, setLanguage] = useState(localStorage.getItem("language") || "en-GB");
     const username = localStorage.getItem("username");
 
     const handleGenderChange = (e) => {
@@ -18,6 +29,9 @@ const UserSettings = () => {
     const handleSubmit = () => {
         localStorage.setItem("gender", gender);
         localStorage.setItem("age", age);
+        localStorage.setItem("language", language);
+        
+        setProfile({username: localStorage.getItem("username"), gender: gender, age: age, language: language});
     };
 
     return (

@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 
 import App from './App';
 
-import { ChatEngineWrapper } from 'react-chat-engine'
-
 ReactDOM.render(
   <React.StrictMode>
     <App />

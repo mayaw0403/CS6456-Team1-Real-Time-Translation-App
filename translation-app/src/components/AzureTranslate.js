@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import languages from './languages'; // Import languages
 
-const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
+const AzureTranslation = ({ message, language }) => {
 
-    const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
   const [translation, setTranslation] = useState('');
-  const [language, setLanguage] = useState(defaultLanguage);
   const handleClick = (event) => {
     event.stopPropagation();
   };
 
   useEffect(() => {
     const fetchTranslation = async () => {
-      if (message && language) {
+      if (message) {
         try {
+          console.log(language)
           const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en-GB|${language}`);
           console.log('Translation response:', response.data);
           setTranslation(response.data.responseData.translatedText);
@@ -25,41 +23,13 @@ const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
     };
 
     fetchTranslation();
-  }, [message, language]);
+  }, [message]);
 
   return (
-    <div onClick={handleClick}>
-      <div>
-        <select className='dropdown' value={language} onChange={(e) => setLanguage(e.target.value)}>
-          {Object.keys(languages).map((lang) => (
-            <option key={lang} value={lang}>
-              {languages[lang]}
-            </option>
-          ))}
-        </select>
+    <div className="message-row" onClick={handleClick}>
+      <div className="translation">
+        {translation || 'Translating...'}
       </div>
-      <div className="message-row">
-      {isFirstMessageByUser && (
-        <div
-          className="message-avatar"
-          style={{ backgroundImage: message.sender && `url(${message.sender.avatar})` }}
-        />
-      )}
-      {message.attachments && message.attachments.length > 0
-        ? (
-          <img
-            src={message.attachments[0].file}
-            alt="message-attachment"
-            className="message-image"
-            style={{ marginLeft: isFirstMessageByUser ? '4px' : '48px' }}
-          />
-        )
-        : (
-          <div className="message" style={{ float: 'left', backgroundColor: '#CABCDC', marginLeft: isFirstMessageByUser ? '4px' : '48px' }}>
-            {translation || 'Translating...'}
-          </div>
-        )}
-    </div>
     </div>
   );
 };

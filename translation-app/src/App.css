@@ -472,12 +472,12 @@
     font-size: 20px;
 }
 
-.navbar {
+.mynavbar {
     display: flex;
     padding: 1rem;
 }
 
-.bar {
+.mybar {
     display: flex;
     flex-direction: column;
     height: 100vh - 2rem;
@@ -487,6 +487,16 @@
     justify-content: flex-start;
     align-items: center;
     padding: 1rem;
+}
+
+.translation {
+    float: left;
+    background-color: #55FF55;
+    margin-left: 48px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 6px;
+    max-width: 60%;
 }
 
 body {

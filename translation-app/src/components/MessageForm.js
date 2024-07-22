@@ -7,8 +7,6 @@ const MessageForm = (props) => {
   const [value, setValue] = useState('');
   const { chatId, creds } = props;
 
-  const language = 'ru';
-
   const {
     transcript,
     listening,
@@ -25,7 +23,7 @@ const MessageForm = (props) => {
       SpeechRecognition.stopListening();
       setValue(transcript);
     } else {
-      SpeechRecognition.startListening({ language: language });
+      SpeechRecognition.startListening({ language: localStorage.getItem("language")  });
     }
   }
 

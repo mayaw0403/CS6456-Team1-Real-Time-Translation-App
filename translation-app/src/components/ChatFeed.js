@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Collapse } from 'react-bootstrap';
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
@@ -8,16 +8,13 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import AzureTranslation from "./AzureTranslate";
 
 const ChatFeed = (props) => {
-    const { chats, activeChat, userName, messages } = props;
-    const [open, setOpen] = useState({});
+    const { chats, activeChat, userName, messages, conn } = props;
+    const [open, setOpen] = useState(false);
 
     const chat = chats && chats[activeChat];
-    
-    const handleToggle = (messageId) => {
-        setOpen(prevState => ({
-            ...prevState,
-            [messageId]: !prevState[messageId]
-        }));
+
+    const handleToggle = () => {
+        setOpen(!open);
     };
 
     const renderReadReceipts = (message, isMyMessage) =>
@@ -52,22 +49,19 @@ const ChatFeed = (props) => {
                         {isMyMessage ? (
                             <MyMessage message={message} />
                         ) : (
-                            <div onClick={() => handleToggle(message.id)}>
+                            <div onClick={() => handleToggle()}>
                                 <TheirMessage
                                     message={message}
-                                    lastMessage={messages[lastMessageKey]}   
+                                    lastMessage={messages[lastMessageKey]}
                                 />
-                                <Collapse in={open[message.id]}>
+                                <Collapse in={open}>
                                     <div>
                                         <TheirTranslation
                                             message={translation}
                                             lastMessage={messages[lastMessageKey]}
+                                            isOwner={chat.admin.username === conn.userName}
+                                            thisPerson={conn.userName}
                                             activeChat={activeChat}
-                                        />
-                                        <AzureTranslation
-                                            message={message}
-                                            lastMessage={messages[lastMessageKey]}
-                                            defaultLanguage="en-US"
                                         />
                                     </div>
                                 </Collapse>

@@ -30,7 +30,7 @@ const safetySettings = [
   { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE, },
   { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE, },
   { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE, },];
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 async function runGemini(prompt) {
   const result = await model.generateContent(prompt);
@@ -44,11 +44,28 @@ async function runGemini(prompt) {
   return json;
 }
 
-const directionA = `I want to translate a message on behalf of Person 1 to Person 2.`;
-const directionB = `I want to translate a message on behalf of Person 2 to Person 1.`;
-const field1 = `Field translation should contain only the best translation.`;
-const field2 = `Field explanation should contain explanations for anything that may not have direct translations like slang or idioms. This should also be translated.`;
-const format = `Use the json format to respond. ${field1} ${field2}`;
+exports.setProfile = onCall(
+  async (request) => {
+    const { username, gender, age, language } = request.data;
+    db.collection('profiles').doc(username).set({ gender: gender, age: age, language: language });
+  });
+
+exports.getProfile = onCall(
+  async (request) => {
+    const { username } = request.data;
+    const messageDoc = await db.collection('profiles').doc(username).get();
+    if (messageDoc.exists) {
+      return messageDoc.data();
+    } else {
+      return { gender: "", age: "", language: "" };
+    }
+  });
+
+exports.setDescription = onCall(
+  async (request) => {
+    const { chatId, description } = request.data;
+    db.collection('descriptions').doc(chatId).set({ description: description });
+  });
 
 exports.translateImage = onCall(
   async (request) => {
@@ -59,7 +76,6 @@ exports.translateImage = onCall(
       const index = `${chatId}${language}${messageId}`;
       const messageDoc = await db.collection('translations').doc(index).get();
       if (messageDoc.exists) {
-        console.log("found entry")
         return messageDoc.data();
       }
 
@@ -73,7 +89,6 @@ exports.translateImage = onCall(
         },
       };
 
-      console.log("translating image!")
       const prompt = `What is this image of. Summarize the important details. The entire response should be in the language ${language}.`;
       const result = await model.generateContent([prompt, image])
       const response = result.response;
@@ -88,23 +103,39 @@ exports.translateImage = onCall(
   });
 
 // convert image to base64
-async function translate(data, direction) {
-  const { messageId, chatId, genderA, ageA, genderB, ageB, descriptionB, language, message } = data;
+async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, message) {
+
+  const thisProfile = await db.collection('profiles').doc(thisPerson).get();
+  const language = thisProfile.exists ? thisProfile.data().language : "en-US";
 
   // gets the database
   const index = `${chatId}${language}${messageId}`;
   const messageDoc = await db.collection('translations').doc(index).get();
   if (messageDoc.exists) {
-    console.log("found entry")
     return messageDoc.data();
   }
 
+  const otherProfile = await db.collection('profiles').doc(thisPerson).get();
+  const chatDescription = await db.collection('descriptions').doc(`${chatId}`).get();
+
+  const genderA = thisProfile.exists ? thisProfile.data().gender : "unknown";
+  const ageA = thisProfile.exists ? thisProfile.data().age : "unknown";
+  const genderB = otherProfile.exists ? otherProfile.data().gender : "unknown";
+  const ageB = otherProfile.exists ? otherProfile.data().age : "unknown";
+  const description = chatDescription.exists ? chatDescription.data().description : "unknown";
+
+
   // creates custom prompt
-  console.log("translating!");
-  const personA = `Person 1's gender is ${genderA} and age is ${ageA}.`;
-  const personB = `Person 2's gender is ${genderB} and age is ${ageB}.`;
-  const relationship = `Person 1 describes Person 2 as ${descriptionB}.`;
-  const translate = `Translate the following into ${language}: ${message}.`;
+  const direction = `I want to translate a received message from ${otherPerson}.`;
+  const personA = `${thisPerson}'s gender is ${genderA} and age is ${ageA}. `;
+  const personB = `${otherPerson}'s gender is ${genderB} and age is ${ageB}. `;
+  const relationship = isOwner ?
+    `${thisPerson} describes ${otherPerson} as ${description}. ` :
+    `${otherPerson} describes ${thisPerson} as ${description}. `;
+  const field1 = `Field translation should contain a translation into ${language}`;
+  const field2 = `Field explanation should contain an explanations written in ${language} for anything that may not have direct translations`;
+  const format = `Use the json format to respond. ${field1} ${field2}`;
+  const translate = `Translate the following message: ${message}.`;
   const prompt = `${direction} ${personA} ${personB} ${relationship} ${format} ${translate}`;
 
   const json = await runGemini(prompt);
@@ -113,21 +144,13 @@ async function translate(data, direction) {
   return json;
 }
 
-exports.translateTextAtoB = onCall({ cors: true },
+exports.translateText = onCall(
   async (request) => {
-    try {
-      const json = await translate(request.data, directionA);
-      return { success: true, translation: json.translation, explanation: json.explanation };
-    } catch (error) {
-      return { success: false, translation: "", explanation: "" };
-    }
-  }
-);
 
-exports.translateTextBtoA = onCall({ cors: true },
-  async (request) => {
+    const { messageId, chatId, thisPerson, otherPerson, isOwner, message } = request.data;
+
     try {
-      const json = await translate(request.data, directionB);
+      const json = await translate(messageId, chatId, thisPerson, otherPerson, isOwner, message);
       return { success: true, translation: json.translation, explanation: json.explanation };
     } catch (error) {
       return { success: false, translation: "", explanation: "" };

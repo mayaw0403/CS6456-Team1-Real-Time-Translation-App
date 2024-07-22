@@ -6,11 +6,9 @@ import ChatFeed from "./components/ChatFeed";
 import LoginForm from "./components/LoginForm";
 import OptionsSettings from "./components/ChatOptions";
 import ChatSettings from "./components/ChatSettings";
-import ChatList from "./components/ChatList";
 import NavBar from "./components/NavBar";
 import UserSettings from "./components/UserSettings";
-
-const projectID = 'ddc9a673-9ce4-41a7-a2f1-46a06478cb3d';
+import { projectID } from "./components/Config"
 
 const NavOptions = {
     CHAT: "chat",

@@ -1,6 +1,5 @@
 import React from "react";
 import LogOut from "./LogOut";
-import UserSettings from "./UserSettings";
 import chat_img from "../chat.png";
 import settings_img from "../settings.png";
 import { Avatar } from "react-chat-engine";
@@ -13,8 +12,8 @@ const NavBar = ({ select, onSelect }) => {
     const username = localStorage.getItem("username");
 
     return (
-        <div className="navbar">
-            <div className="bar">
+        <div className="mynavbar">
+            <div className="mybar">
                 <div className="user-avatar">
                     <Avatar username={username} />
                 </div>
@@ -25,7 +24,7 @@ const NavBar = ({ select, onSelect }) => {
                     >
                         <img
                             src={chat_img}
-                            alt="Chat Image"
+                            alt=""
                             className="chat-icon"
                         />
                     </button>
@@ -37,7 +36,7 @@ const NavBar = ({ select, onSelect }) => {
                     >
                         <img
                             src={settings_img}
-                            alt="Button Image"
+                            alt=""
                             style={{ width: "2rem", height: "auto" }}
                         />
                     </button>
