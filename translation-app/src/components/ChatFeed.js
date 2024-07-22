@@ -1,15 +1,24 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
+import { Collapse } from 'react-bootstrap';
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import AzureTranslation from "./AzureTranslate";
 
 const ChatFeed = (props) => {
     const { chats, activeChat, userName, messages } = props;
+    const [open, setOpen] = useState({});
 
     const chat = chats && chats[activeChat];
     
+    const handleToggle = (messageId) => {
+        setOpen(prevState => ({
+            ...prevState,
+            [messageId]: !prevState[messageId]
+        }));
+    };
 
     const renderReadReceipts = (message, isMyMessage) =>
         chat.people.map(
@@ -43,21 +52,25 @@ const ChatFeed = (props) => {
                         {isMyMessage ? (
                             <MyMessage message={message} />
                         ) : (
-                            <div>
+                            <div onClick={() => handleToggle(message.id)}>
                                 <TheirMessage
                                     message={message}
-                                    lastMessage={messages[lastMessageKey]}
+                                    lastMessage={messages[lastMessageKey]}   
                                 />
-                                <TheirTranslation
-                                    message={translation}
-                                    lastMessage={messages[lastMessageKey]}
-                                    activeChat={activeChat}
-                                />
-                                {/* <AzureTranslation
-                                    message={message}
-                                    lastMessage={messages[lastMessageKey]}
-                                    defaultLanguage="en-US"
-                                /> */}
+                                <Collapse in={open[message.id]}>
+                                    <div>
+                                        <TheirTranslation
+                                            message={translation}
+                                            lastMessage={messages[lastMessageKey]}
+                                            activeChat={activeChat}
+                                        />
+                                        <AzureTranslation
+                                            message={message}
+                                            lastMessage={messages[lastMessageKey]}
+                                            defaultLanguage="en-US"
+                                        />
+                                    </div>
+                                </Collapse>
                             </div>
                         )}
                     </div>
