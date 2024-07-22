@@ -10,7 +10,7 @@ import ChatList from "./components/ChatList";
 import NavBar from "./components/NavBar";
 import UserSettings from "./components/UserSettings";
 
-const projectID = 'b34fc922-e972-4a15-8691-3aab22e55aa3';
+const projectID = 'ddc9a673-9ce4-41a7-a2f1-46a06478cb3d';
 
 const NavOptions = {
     CHAT: "chat",

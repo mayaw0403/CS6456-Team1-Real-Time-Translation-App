@@ -13,10 +13,10 @@ const ChatFeed = (props) => {
 
     const chat = chats && chats[activeChat];
     
-    const handleToggle = (messageId) => {
-        setOpen(prevState => ({
+    const toggleCollapse = (messageId) => {
+        setOpen((prevState) => ({
             ...prevState,
-            [messageId]: !prevState[messageId]
+            [messageId]: !prevState[messageId],
         }));
     };
 
@@ -52,23 +52,27 @@ const ChatFeed = (props) => {
                         {isMyMessage ? (
                             <MyMessage message={message} />
                         ) : (
-                            <div onClick={() => handleToggle(message.id)}>
+                            <div onClick={(e) => {
+                                if (e.target.className === "message") {
+                                    toggleCollapse(message.id);
+                                }
+                            }}>
                                 <TheirMessage
                                     message={message}
                                     lastMessage={messages[lastMessageKey]}   
                                 />
                                 <Collapse in={open[message.id]}>
-                                    <div>
+                                    <div onClick={(e) => e.stopPropagation()}>
                                         <TheirTranslation
                                             message={translation}
                                             lastMessage={messages[lastMessageKey]}
                                             activeChat={activeChat}
                                         />
-                                        <AzureTranslation
+                                        {/*<AzureTranslation
                                             message={message}
                                             lastMessage={messages[lastMessageKey]}
                                             defaultLanguage="en-US"
-                                        />
+                                        />*/}
                                     </div>
                                 </Collapse>
                             </div>

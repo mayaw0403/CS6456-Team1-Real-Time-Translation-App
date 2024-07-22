@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { firebaseConfig } from "./Config"
 import Popup from './Popup';
+import AzureTranslation from "./AzureTranslate";
 
 import {
   getFunctions,
@@ -26,6 +27,7 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
   const [translation, setTranslation] = useState("Translating");
   const [explanation, setExplanation] = useState("Explanation");
   const [translating, setTranslating] = useState(true);
+  const [translationFailed, setTranslationFailed] = useState(false);
 
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {setIsHovered(true);};
@@ -42,19 +44,20 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
   useEffect(() => {
     async function fetchData() {
       try {
+        const resp = await translateImage({
+          messageId: message.id,
+          chatId: activeChat,
+          url: message.attachments[0].file,
+          language: language
+        });
         if (translating) {
           if (message.attachments && message.attachments.length > 0) {
-            const resp = await translateImage({
-              messageId: message.id,
-              chatId: activeChat,
-              url: message.attachments[0].file,
-              language: language
-            });
 
             console.log(resp);
             if (resp.data.success == false)
             {
               //translation failed
+              setTranslationFailed(true);
             } else {
               setTranslation(() => resp.data.translation);
               setExplanation(() => "Images are transcribed and proved a direct translation.");
@@ -78,6 +81,7 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
             if (resp.data.success == false)
               {
                 //translation failed
+                setTranslationFailed(true);
               } else {
                 setTranslation(() => resp.data.translation);
                 setExplanation(() => resp.data.explanation);
@@ -88,12 +92,18 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
         }
       } catch (error) {
         console.log(error);
+        setTranslationFailed(true);
       }
     }
 
     fetchData();
   }, []);
 
+  if (translationFailed) {
+    return <AzureTranslation message={message} lastMessage={lastMessage} defaultLanguage="en-US" />;
+  }
+
+  
   return (
     <div className="message-row">
       <div className="message"
