@@ -21,7 +21,7 @@ const App = () => {
 
     return (
         <div style={styles.container}>
-            {/*<NavBar selected={selected} onSelect={setSelected} />*/}
+            <NavBar selected={selected} onSelect={setSelected} />
             <div style={styles.content}>
                 {selected === NavOptions.CHAT && (
                     <ChatEngine
