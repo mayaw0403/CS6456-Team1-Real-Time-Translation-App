@@ -63,17 +63,17 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
           } else {
             // test call
             // messageId, chatId, genderA, ageA, genderB, ageB, descriptionB, language, message
-            // const resp = await translateTextAtoB({
-            //   messageId: 0,
-            //   chatId: 1,
-            //   genderA: "female",
-            //   ageA: 25,
-            //   genderB: "male",
-            //   ageA: 17,
-            //   description: "I am talking to my doctor",
-            //   language: language,
-            //   message: "I regret to inform you that you have cancer."
-            // });
+            const resp = await translateTextAtoB({
+              messageId: 0,
+              chatId: 1,
+              genderA: "female",
+              ageA: 25,
+              genderB: "male",
+              ageA: 17,
+              description: "I am talking to my doctor",
+              language: language,
+              message: "I regret to inform you that you have cancer."
+            });
 
             if (resp.data.success == false)
               {

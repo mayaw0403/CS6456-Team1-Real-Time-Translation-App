@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 
 import { ChatEngine } from "react-chat-engine";
 import { useState } from "react";
@@ -10,7 +10,7 @@ import ChatList from "./components/ChatList";
 import NavBar from "./components/NavBar";
 import UserSettings from "./components/UserSettings";
 
-const projectID = 'b34fc922-e972-4a15-8691-3aab22e55aa3';
+const projectID = "5e8be1ce-98b7-404a-838f-823e9670f22b";
 
 const NavOptions = {
     CHAT: "chat",
@@ -72,7 +72,7 @@ const styles = {
         backgroundColor: "rgba(255, 255, 255, 0.685)",
         backdropFilter: "blur(19px) saturate(180%)",
         borderRadius: "40px",
-        border: "1px solid rgba(255, 255, 255, 0.125)"
+        border: "1px solid rgba(255, 255, 255, 0.125)",
     },
     content: {
         flex: 1,
@@ -88,6 +88,6 @@ const styles = {
         height: "100%",
         overflow: "auto",
         padding: "20px",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
     },
 };
