@@ -41,9 +41,9 @@ const App = () => {
                         renderChatSettings={(chatAppState) => (
                             <ChatSettings {...chatAppState} />
                         )}
-                        renderChatList={(chatAppProps) => (
-                            <ChatList {...chatAppProps} />
-                        )}
+                        // renderChatList={(chatAppProps) => (
+                        //     <ChatList {...chatAppProps} />
+                        // )}
                         renderOptionsSettings={(creds, chat) => (
                             <OptionsSettings />
                         )}
