@@ -297,11 +297,16 @@
 }
 
 .title {
-    text-align: center;
+    color: white;
+    width: 100%;
+    font-size: 2.3em;
+}
+
+.subtitle {
     color: white;
     margin-bottom: 30px;
     width: 100%;
-    font-size: 2.3em;
+    font-size: 1em;
 }
 
 .button {

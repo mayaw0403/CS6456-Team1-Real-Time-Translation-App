@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import person from "../person-login.png";
+import logo from "../logo.png";
 
 const projectID = "5e8be1ce-98b7-404a-838f-823e9670f22b";
 
@@ -34,8 +36,16 @@ const Modal = () => {
 
     return (
         <div className="wrapper">
+            <img src={person} width={"250px"} alt="ellipse"></img>
             <div className="form">
-                <h1 className="title">Chat Application</h1>
+                <div style={styles.intro}>
+                    <h1 className="title" style={{ fontWeight: "bold" }}>
+                        LinguaLink
+                    </h1>
+                    <p className="subtitle">
+                        Sign in to continue your progress!
+                    </p>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -66,3 +76,9 @@ const Modal = () => {
 };
 
 export default Modal;
+
+const styles = {
+    intro: {
+        margin: "1rem",
+    },
+};
