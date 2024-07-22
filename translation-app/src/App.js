@@ -1,3 +1,5 @@
+import './App.css';
+
 import { ChatEngine } from "react-chat-engine";
 import { useState } from "react";
 import ChatFeed from "./components/ChatFeed";
@@ -8,9 +10,8 @@ import ChatList from "./components/ChatList";
 import NavBar from "./components/NavBar";
 import UserSettings from "./components/UserSettings";
 
-import "./App.css";
+const projectID = 'b34fc922-e972-4a15-8691-3aab22e55aa3';
 
-const projectID = "5e8be1ce-98b7-404a-838f-823e9670f22b";
 const NavOptions = {
     CHAT: "chat",
     SETTINGS: "settings",
@@ -25,7 +26,7 @@ const App = () => {
             <div style={styles.content}>
                 {selected === NavOptions.CHAT && (
                     <ChatEngine
-                        height="100vh"
+                        height="calc(90vh - 40px)"
                         width="100%"
                         projectID={projectID}
                         userName={localStorage.getItem("username")}
@@ -66,8 +67,12 @@ export default App;
 const styles = {
     container: {
         display: "flex",
-        height: "100vh",
-        width: "100vw",
+        height: "90vh",
+        width: "90vw",
+        backgroundColor: "rgba(255, 255, 255, 0.685)",
+        backdropFilter: "blur(19px) saturate(180%)",
+        borderRadius: "40px",
+        border: "1px solid rgba(255, 255, 255, 0.125)"
     },
     content: {
         flex: 1,
@@ -83,6 +88,6 @@ const styles = {
         height: "100%",
         overflow: "auto",
         padding: "20px",
-        boxSizing: "border-box",
+        boxSizing: "border-box"
     },
 };

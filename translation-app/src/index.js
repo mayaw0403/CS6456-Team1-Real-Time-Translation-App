@@ -7,9 +7,7 @@ import { ChatEngineWrapper } from 'react-chat-engine'
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChatEngineWrapper>
-      <App />
-    </ChatEngineWrapper>
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

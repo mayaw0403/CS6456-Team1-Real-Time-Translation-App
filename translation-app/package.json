@@ -29,6 +29,8 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.0",
     "react-select-country-list": "^2.2.3",
+    "react-speech-recognition": "^3.10.0",
+    "reactjs-popup": "^2.0.6",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
