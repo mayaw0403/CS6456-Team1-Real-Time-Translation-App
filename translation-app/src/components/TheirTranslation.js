@@ -35,6 +35,10 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
     backgroundColor: isHovered ? '#00AA00' : '#55FF55',
     marginLeft: '48px'
   };
+  
+  const handleClick = (event) => {
+    event.stopPropagation();
+  };
 
   const [isOpen, setIsOpen] = useState(false);
   const togglePopup = () => {setIsOpen(!isOpen);}
@@ -42,14 +46,14 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
   useEffect(() => {
     async function fetchData() {
       try {
+        if (message.attachments && message.attachments.length > 0) {
+          const resp = await translateImage({
+            messageId: message.id,
+            chatId: activeChat,
+            url: message.attachments[0].file,
+            language: language
+          });
         if (translating) {
-          if (message.attachments && message.attachments.length > 0) {
-            const resp = await translateImage({
-              messageId: message.id,
-              chatId: activeChat,
-              url: message.attachments[0].file,
-              language: language
-            });
 
             console.log(resp);
             if (resp.data.success == false)
@@ -95,7 +99,7 @@ const TheirTranslation = ({ lastMessage, message, activeChat }) => {
   }, []);
 
   return (
-    <div className="message-row">
+    <div className="message-row" onClick={handleClick}>
       <div className="message"
         style={divStyle}
         onClick={togglePopup}
