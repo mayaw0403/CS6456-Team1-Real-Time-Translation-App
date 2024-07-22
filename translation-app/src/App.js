@@ -68,7 +68,7 @@ const styles = {
     container: {
         display: "flex",
         height: "90vh",
-        width: "90vw",
+        width: "95vw",
         backgroundColor: "rgba(255, 255, 255, 0.685)",
         backdropFilter: "blur(19px) saturate(180%)",
         borderRadius: "40px",
@@ -76,8 +76,6 @@ const styles = {
     },
     content: {
         flex: 1,
-        display: "flex",
-        flexDirection: "column",
         height: "100%",
         overflow: "hidden",
     },

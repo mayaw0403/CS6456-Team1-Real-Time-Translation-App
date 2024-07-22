@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import countryList from "react-select-country-list";
-import languages from './languages';
+import languages from "./languages";
 
 const UserSettings = () => {
     const username = localStorage.getItem("username");
@@ -11,7 +11,6 @@ const UserSettings = () => {
         localStorage.getItem("country") || ""
     );
     const [language, setLanguage] = useState("en-GB");
-
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -73,13 +72,14 @@ const UserSettings = () => {
                         {countryOptions.map((country, index) => (
                             <option key={index} value={country.label}>
                                 {country.label}
-                                </option>
+                            </option>
                         ))}
                     </select>
                 </label>
                 <label style={styles.label}>
                     Language
-                    <select className='dropdown'
+                    <select
+                        className="dropdown"
                         value={language}
                         onChange={(e) => setLanguage(e.target.value)}
                         style={styles.input}
@@ -109,7 +109,7 @@ const styles = {
         flexDirection: "column",
         backgroundColor: "#eef6fb",
         padding: "20px",
-        borderRadius: "5px",
+        borderRadius: "20px",
         boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
         overflow: "auto",
         height: "100%",

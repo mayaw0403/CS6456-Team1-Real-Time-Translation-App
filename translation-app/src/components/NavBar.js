@@ -9,7 +9,7 @@ const NavOptions = {
     CHAT: "chat",
     SETTINGS: "settings",
 };
-const NavBar = ({ select, onSelect }) => {
+const NavBar = ({ onSelect }) => {
     const username = localStorage.getItem("username");
 
     return (

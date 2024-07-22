@@ -105,7 +105,6 @@
     background-color: rgba(17, 25, 40, 0);
 }
 
-
 .chat-feed {
     height: 100%;
     width: 100%;
@@ -259,16 +258,18 @@
     height: 90vh;
     width: 90vw;
     background: rgb(117, 84, 160);
-    background: linear-gradient(90deg,
-            rgba(117, 84, 160, 0.685) 7%,
-            rgba(117, 84, 160, 0.685) 17%,
-            rgba(106, 95, 168, 0.685) 29%,
-            rgba(99, 103, 174, 0.685) 44%,
-            rgba(87, 116, 184, 0.685) 66%,
-            rgba(70, 135, 198, 0.685) 83%,
-            rgba(44, 163, 219, 0.685) 96%,
-            rgba(22, 188, 237, 0.685) 100%,
-            rgba( 0, 212, 255, 0.685) 100%);
+    background: linear-gradient(
+        90deg,
+        rgba(117, 84, 160, 0.685) 7%,
+        rgba(117, 84, 160, 0.685) 17%,
+        rgba(106, 95, 168, 0.685) 29%,
+        rgba(99, 103, 174, 0.685) 44%,
+        rgba(87, 116, 184, 0.685) 66%,
+        rgba(70, 135, 198, 0.685) 83%,
+        rgba(44, 163, 219, 0.685) 96%,
+        rgba(22, 188, 237, 0.685) 100%,
+        rgba(0, 212, 255, 0.685) 100%
+    );
     display: flex;
     justify-content: center;
     align-items: center;
@@ -430,7 +431,6 @@
     background-color: #5a5a5a;
 }
 
-
 /* Popup style */
 .popup-box {
     position: fixed;
@@ -457,7 +457,7 @@
 }
 
 .close-icon {
-    content: 'x';
+    content: "x";
     cursor: pointer;
     position: fixed;
     right: calc(15% - 30px);
@@ -473,8 +473,7 @@
 }
 
 .navbar {
-    display: flex;
-    padding: 1rem;
+    margin: 0.75rem 0rem 0.5rem 1rem;
 }
 
 .bar {
