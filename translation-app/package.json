@@ -27,6 +27,8 @@
     "react-grid-system": "^8.2.0",
     "react-native-mime-types": "^2.5.0",
     "react-scripts": "5.0.1",
+    "react-select": "^5.8.0",
+    "react-select-country-list": "^2.2.3",
     "web-vitals": "^2.1.4"
   },
   "scripts": {

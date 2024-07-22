@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useMemo } from "react";
+import countryList from "react-select-country-list";
 
 const UserSettings = () => {
+    const username = localStorage.getItem("username");
+    const countryOptions = useMemo(() => countryList().getData(), []);
     const [gender, setGender] = useState(localStorage.getItem("gender") || "");
     const [age, setAge] = useState(localStorage.getItem("age") || "");
-    const username = localStorage.getItem("username");
+    const [country, setCountry] = useState(
+        localStorage.getItem("country") || ""
+    );
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -13,9 +18,14 @@ const UserSettings = () => {
         setAge(e.target.value);
     };
 
+    const handleCountryChange = (e) => {
+        setCountry(e.target.value);
+    };
+
     const handleSubmit = () => {
         localStorage.setItem("gender", gender);
         localStorage.setItem("age", age);
+        localStorage.setItem("country", country);
     };
 
     return (
@@ -46,6 +56,23 @@ const UserSettings = () => {
                         value={age}
                         onChange={handleAgeChange}
                     />
+                </label>
+                <label style={styles.label}>
+                    Country
+                    <select
+                        style={styles.input}
+                        value={country}
+                        onChange={handleCountryChange}
+                    >
+                        <option value="" disabled>
+                            Select
+                        </option>
+                        {countryOptions.map((country, index) => (
+                            <option key={index} value={country.label}>
+                                {country.label}
+                            </option>
+                        ))}
+                    </select>
                 </label>
             </form>
             <div>
@@ -104,6 +131,6 @@ const styles = {
         border: "none",
         width: "8rem",
         height: "3rem",
-        transition: "background-color 0.3s ease",
+        transition: "background-color 0.10s ease",
     },
 };

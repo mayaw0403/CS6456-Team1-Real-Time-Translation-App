@@ -16,9 +16,10 @@ const ChatList = (props) => {
                         .reverse()
                         .map((chatId, index) => {
                             const chat = chats[chatId];
+                            if (!chat) return null; // Skip if chat is undefined
                             return (
                                 <div
-                                    key={index}
+                                    key={chatId}
                                     onClick={() => setActiveChat(chat.id)}
                                 >
                                     <ChatCard {...props} chat={chat} />
