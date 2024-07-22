@@ -7,6 +7,9 @@ const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
     const isFirstMessageByUser = !lastMessage || lastMessage.sender.username !== message.sender.username;
   const [translation, setTranslation] = useState('');
   const [language, setLanguage] = useState(defaultLanguage);
+  const handleClick = (event) => {
+    event.stopPropagation();
+  };
 
   useEffect(() => {
     const fetchTranslation = async () => {
@@ -25,7 +28,7 @@ const AzureTranslation = ({ message, lastMessage, defaultLanguage }) => {
   }, [message, language]);
 
   return (
-    <div>
+    <div onClick={handleClick}>
       <div>
         <select className='dropdown' value={language} onChange={(e) => setLanguage(e.target.value)}>
           {Object.keys(languages).map((lang) => (
