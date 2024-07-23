@@ -1,15 +1,13 @@
-import React, { useState } from "react";
-import { Collapse } from 'react-bootstrap';
+import { React, useState } from "react";
 import MyMessage from "./MyMessage";
 import TheirMessage from "./TheirMessage";
 import TheirTranslation from "./TheirTranslation";
 import MessageForm from "./MessageForm";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import AzureTranslation from "./AzureTranslate";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const ChatFeed = (props) => {
     const { chats, activeChat, userName, messages, conn } = props;
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const chat = chats && chats[activeChat];
 
@@ -41,7 +39,6 @@ const ChatFeed = (props) => {
             const message = messages[key];
             const lastMessageKey = index === 0 ? null : keys[index - 1];
             const isMyMessage = userName === message.sender.username;
-            var translation = message;
 
             return (
                 <div key={`msg_${index}`} style={{ width: "100%" }}>
@@ -54,17 +51,15 @@ const ChatFeed = (props) => {
                                     message={message}
                                     lastMessage={messages[lastMessageKey]}
                                 />
-                                <Collapse in={open}>
                                     <div>
                                         <TheirTranslation
-                                            message={translation}
+                                            message={message}
                                             lastMessage={messages[lastMessageKey]}
                                             isOwner={chat.admin.username === conn.userName}
                                             thisPerson={conn.userName}
                                             activeChat={activeChat}
                                         />
                                     </div>
-                                </Collapse>
                             </div>
                         )}
                     </div>

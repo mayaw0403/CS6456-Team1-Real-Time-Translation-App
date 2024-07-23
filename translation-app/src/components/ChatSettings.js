@@ -1,10 +1,10 @@
 import React, { useContext } from 'react'
 
-import { ChatEngineContext, ChatSettingsTop, PeopleSettings, PhotosSettings } from 'react-chat-engine'
+import { ChatEngineContext, ChatSettingsTop, PeopleSettings, OptionsSettings } from 'react-chat-engine'
 
-import OptionsSettings from './ChatOptions';
 
 const ChatSettings = props => {
+    // return <></>
     const { conn, chats, activeChat } = useContext(ChatEngineContext)
     const chat = chats && chats[activeChat]
 
@@ -23,12 +23,6 @@ const ChatSettings = props => {
                     props.renderPeopleSettings ?
                         props.renderPeopleSettings(conn, chat) :
                         <PeopleSettings />
-                }
-
-                {
-                    props.renderPhotosSettings ?
-                        props.renderPhotosSettings(chat) :
-                        <PhotosSettings />
                 }
 
                 {

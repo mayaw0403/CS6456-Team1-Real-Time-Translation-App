@@ -1,22 +1,29 @@
-import React, { useState, } from "react";
-import languages from './languages';
+import React, { useState, useMemo, useEffect } from "react";
 import { firebaseConfig } from "./Config"
 
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
 import { connectFunctionsEmulator } from "firebase/functions";
 
+import countryList from "react-select-country-list";
+import languages from "./languages";
+import { Avatar } from "react-chat-engine";
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const functions = getFunctions(app);
 connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 const setProfile = httpsCallable(functions, "setProfile");
+const getProfile = httpsCallable(functions, "getProfile");
+
 
 const UserSettings = () => {
-    const [gender, setGender] = useState(localStorage.getItem("gender") || "");
-    const [age, setAge] = useState(localStorage.getItem("age") || "");
-    const [language, setLanguage] = useState(localStorage.getItem("language") || "en-GB");
     const username = localStorage.getItem("username");
+    const countryOptions = useMemo(() => countryList().getData(), []);
+    const [gender, setGender] = useState("");
+    const [age, setAge] = useState("");
+    const [language, setLanguage] = useState("");
+    const [country, setCountry] = useState("");
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -26,59 +33,109 @@ const UserSettings = () => {
         setAge(e.target.value);
     };
 
-    const handleSubmit = () => {
-        localStorage.setItem("gender", gender);
-        localStorage.setItem("age", age);
-        localStorage.setItem("language", language);
-        
-        setProfile({username: localStorage.getItem("username"), gender: gender, age: age, language: language});
+    const handleCountryChange = (e) => {
+        setCountry(e.target.value);
     };
+
+    const handleSubmit = () => {
+
+        setProfile({ username: localStorage.getItem("username"), gender: gender, age: age, language: language, country: country });
+        localStorage.setItem("language", language);
+    };
+
+    useEffect(() => {
+        async function fetchData() {
+            const resp = await getProfile({ username: username });
+            if (resp.data.language === "")
+            {
+                const browserLang = navigator.language || navigator.userLanguage;
+                resp.data.language = browserLang.split("-")[0];
+            }
+            setGender(resp.data.gender);
+            setAge(resp.data.age);
+            setCountry(resp.data.country);
+            setLanguage(resp.data.language);
+            localStorage.setItem("language", resp.data.language);
+        }
+
+        fetchData();
+    }, [username]);
+
 
     return (
         <div style={styles.content}>
             <h2>User Settings</h2>
-            <h3 style={{ color: "#3e435d" }}>Welcome, {username}</h3>
-
+            <h3 style={{ color: "#3e435d", marginBottom: "2rem" }}>
+                Welcome, {username}!
+            </h3>
+            <div className="user-avatar">
+                <Avatar username={username} />
+            </div>
             <form style={styles.form}>
-                <label style={styles.label}>
-                    Gender
-                    <select
-                        style={styles.input}
-                        value={gender}
-                        onChange={handleGenderChange}
-                    >
-                        <option value="" disabled>
-                            Select
-                        </option>
-                        <option value="female">Female</option>
-                        <option value="male">Male</option>
-                    </select>
-                </label>
-                <label style={styles.label}>
-                    Age
-                    <input
-                        style={styles.input}
-                        type="number"
-                        value={age}
-                        onChange={handleAgeChange}
-                    />
-                </label>
-                <label style={styles.label}>
-                    Language
-                    <select className='dropdown'
-                        value={language}
-                        onChange={(e) => setLanguage(e.target.value)}
-                        style={styles.input}
-                    >
-                        {Object.keys(languages).map((lang) => (
-                            <option key={lang} value={lang}>
-                                {languages[lang]}
-                            </option>
-                        ))}
-                    </select>
-                </label>
+                <div style={styles.row}>
+                    <div style={styles.column}>
+                        <label style={styles.label}>
+                            Gender
+                            <select
+                                style={styles.input}
+                                value={gender}
+                                onChange={handleGenderChange}
+                            >
+                                <option value="" disabled>
+                                    Select
+                                </option>
+                                <option value="female">Female</option>
+                                <option value="male">Male</option>
+                            </select>
+                        </label>
+
+                        <label style={styles.label}>
+                            Age
+                            <input
+                                style={styles.input}
+                                type="number"
+                                value={age}
+                                onChange={handleAgeChange}
+                            />
+                        </label>
+                    </div>
+                    <div style={styles.column}>
+                        <label style={styles.label}>
+                            Country
+                            <select
+                                style={styles.input}
+                                value={country}
+                                onChange={handleCountryChange}
+                            >
+                                <option value="" disabled>
+                                    Select
+                                </option>
+                                {countryOptions.map((country, index) => (
+                                    <option key={index} value={country.label}>
+                                        {country.label}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <label style={styles.label}>
+                            Language
+                            <select
+                                className="dropdown"
+                                value={language}
+                                onChange={(e) => setLanguage(e.target.value)}
+                                style={styles.input}
+                            >
+                                {Object.keys(languages).map((lang) => (
+                                    <option key={lang} value={lang}>
+                                        {languages[lang]}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                    </div>
+                </div>
             </form>
-            <div>
+            <div style={styles.center}>
                 <button onClick={handleSubmit} style={styles.submit}>
                     Submit
                 </button>
@@ -95,7 +152,7 @@ const styles = {
         flexDirection: "column",
         backgroundColor: "#eef6fb",
         padding: "20px",
-        borderRadius: "5px",
+        borderRadius: "20px",
         boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)",
         overflow: "auto",
         height: "100%",
@@ -119,7 +176,6 @@ const styles = {
         padding: "5px",
         marginLeft: "5px",
         backgroundColor: "#f9f9f9",
-        width: "700px",
         borderColor: "none",
         borderRadius: "8px",
         border: "none",
@@ -134,6 +190,20 @@ const styles = {
         border: "none",
         width: "8rem",
         height: "3rem",
-        transition: "background-color 0.3s ease",
+        transition: "background-color 0.10s ease",
+    },
+    row: {
+        display: "flex",
+        flexDirection: "row",
+    },
+    column: {
+        display: "flex",
+        flexDirection: "column",
+        flex: 1,
+    },
+    center: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
     },
 };

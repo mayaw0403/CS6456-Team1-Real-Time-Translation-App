@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 
 import { ChatEngine } from "react-chat-engine";
 import { useState } from "react";
@@ -40,9 +40,6 @@ const App = () => {
                         renderChatSettings={(chatAppState) => (
                             <ChatSettings {...chatAppState} />
                         )}
-                        // renderChatList={(chatAppProps) => (
-                        //     <ChatList {...chatAppProps} />
-                        // )}
                         renderOptionsSettings={(creds, chat) => (
                             <OptionsSettings />
                         )}
@@ -66,16 +63,14 @@ const styles = {
     container: {
         display: "flex",
         height: "90vh",
-        width: "90vw",
+        width: "95vw",
         backgroundColor: "rgba(255, 255, 255, 0.685)",
         backdropFilter: "blur(19px) saturate(180%)",
         borderRadius: "40px",
-        border: "1px solid rgba(255, 255, 255, 0.125)"
+        border: "1px solid rgba(255, 255, 255, 0.125)",
     },
     content: {
         flex: 1,
-        display: "flex",
-        flexDirection: "column",
         height: "100%",
         overflow: "hidden",
     },
@@ -86,6 +81,6 @@ const styles = {
         height: "100%",
         overflow: "auto",
         padding: "20px",
-        boxSizing: "border-box"
+        boxSizing: "border-box",
     },
 };

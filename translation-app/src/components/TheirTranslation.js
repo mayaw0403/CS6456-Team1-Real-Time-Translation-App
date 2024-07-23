@@ -16,18 +16,16 @@ const translateImage = httpsCallable(functions, "translateImage");
 const translateText = httpsCallable(functions, "translateText");
 
 const TheirTranslation = ({ lastMessage, message, isOwner, thisPerson, activeChat }) => {
-  // test parameters
   const language = localStorage.getItem("language");
 
   const [translation, setTranslation] = useState("Translating");
-  const [explanation, setExplanation] = useState("Explanation");
-  const [translating, setTranslating] = useState(true);
+  const [explanation, setExplanation] = useState("Translating");
 
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => { setIsHovered(true); };
   const handleMouseLeave = () => { setIsHovered(false); };
   const divStyle = {
-    backgroundColor: isHovered ? '#00AA00' : '#55FF55',
+    backgroundColor: isHovered ? '#AAAAAA' : '#FFFFFF',
   };
 
   const handleClick = (event) => {
@@ -41,6 +39,8 @@ const TheirTranslation = ({ lastMessage, message, isOwner, thisPerson, activeCha
   useEffect(() => {
     async function fetchData() {
       try {
+        setTranslation("Translating");
+        setExplanation("Translating");
         if (message.attachments && message.attachments.length > 0) {
           const resp = await translateImage({
             messageId: message.id,
@@ -48,48 +48,45 @@ const TheirTranslation = ({ lastMessage, message, isOwner, thisPerson, activeCha
             url: message.attachments[0].file,
             language: language
           });
-          if (translating) {
 
-            console.log(resp);
-            if (resp.data.success === false) {
-              setFailed(true);
-            } else {
-              setTranslation(() => resp.data.translation);
-              setExplanation(() => "Images are transcribed and proved a direct translation.");
-              setTranslating(false);
-            }
+          if (resp.data.success === false) {
+            setFailed(true);
           } else {
-            // messageId, chatId, thisPerson, otherPerson, isOwner, message
-            const otherPerson = message.sender.username;
-            const resp = await translateText({
-              messageId: message.id,
-              chatId: activeChat,
-              thisPerson: thisPerson,
-              otherPerson: otherPerson,
-              isOwner: isOwner,
-              message: message.text
-            });
-            console.log(resp.data);
-            if (resp.data.success === false) {
-              setFailed(true);
-            } else {
-              setTranslation(() => resp.data.translation);
-              setExplanation(() => resp.data.explanation);
-              setTranslating(false);
-            }
+            setTranslation(() => resp.data.translation);
+            setExplanation(() => "Images are transcribed and proved a direct translation.");
+          }
+        } else {
+          // messageId, chatId, thisPerson, otherPerson, isOwner, message
+          const otherPerson = message.sender.username;
+          const resp = await translateText({
+            messageId: message.id,
+            chatId: activeChat,
+            thisPerson: thisPerson,
+            otherPerson: otherPerson,
+            isOwner: isOwner,
+            message: message.text,
+            language: language
+          });
+
+          if (resp.data.success === false) {
+            setFailed(true);
+          } else {
+            setTranslation(() => resp.data.translation);
+            setExplanation(() => resp.data.explanation);
           }
 
         }
       } catch (error) {
         setFailed(true);
+        console.log(error);
       }
     }
 
     fetchData();
-  }, []);
+  }, [message]);
 
   return (
-    failed ? (
+    !failed ? (
       <div className="message-row" onClick={handleClick}>
         <div className="translation"
           style={divStyle}

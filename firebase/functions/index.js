@@ -30,7 +30,7 @@ const safetySettings = [
   { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE, },
   { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE, },
   { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE, },];
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash", safetySettings });
 
 async function runGemini(prompt) {
   const result = await model.generateContent(prompt);
@@ -46,8 +46,8 @@ async function runGemini(prompt) {
 
 exports.setProfile = onCall(
   async (request) => {
-    const { username, gender, age, language } = request.data;
-    db.collection('profiles').doc(username).set({ gender: gender, age: age, language: language });
+    const { username, gender, age, language, country } = request.data;
+    db.collection('profiles').doc(username).set({ gender: gender, age: age, language: language, country: country });
   });
 
 exports.getProfile = onCall(
@@ -57,14 +57,25 @@ exports.getProfile = onCall(
     if (messageDoc.exists) {
       return messageDoc.data();
     } else {
-      return { gender: "", age: "", language: "" };
+      return { gender: "", age: "", language: "", country: "" };
     }
   });
 
 exports.setDescription = onCall(
   async (request) => {
     const { chatId, description } = request.data;
-    db.collection('descriptions').doc(chatId).set({ description: description });
+    db.collection('descriptions').doc(`${chatId}`).set({ description: description });
+  });
+
+exports.getDescription = onCall(
+  async (request) => {
+    const { chatId } = request.data;
+    const messageDoc = await db.collection('descriptions').doc(`${chatId}`).get();
+    if (messageDoc.exists) {
+      return messageDoc.data();
+    } else {
+      return { description: "" };
+    }
   });
 
 exports.translateImage = onCall(
@@ -103,13 +114,13 @@ exports.translateImage = onCall(
   });
 
 // convert image to base64
-async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, message) {
+async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, message, language) {
 
   const thisProfile = await db.collection('profiles').doc(thisPerson).get();
-  const language = thisProfile.exists ? thisProfile.data().language : "en-US";
 
   // gets the database
   const index = `${chatId}${language}${messageId}`;
+  console.log(index);
   const messageDoc = await db.collection('translations').doc(index).get();
   if (messageDoc.exists) {
     return messageDoc.data();
@@ -120,20 +131,22 @@ async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, me
 
   const genderA = thisProfile.exists ? thisProfile.data().gender : "unknown";
   const ageA = thisProfile.exists ? thisProfile.data().age : "unknown";
+  const countryA = otherProfile.exists ? thisProfile.data().country : "unknown";
   const genderB = otherProfile.exists ? otherProfile.data().gender : "unknown";
   const ageB = otherProfile.exists ? otherProfile.data().age : "unknown";
+  const countryB = otherProfile.exists ? otherProfile.data().country : "unknown";
   const description = chatDescription.exists ? chatDescription.data().description : "unknown";
 
 
   // creates custom prompt
   const direction = `I want to translate a received message from ${otherPerson}.`;
-  const personA = `${thisPerson}'s gender is ${genderA} and age is ${ageA}. `;
-  const personB = `${otherPerson}'s gender is ${genderB} and age is ${ageB}. `;
+  const personA = `${thisPerson}'s demographics are gender:${genderA}, age:${ageA}, and country:${countryA}. `;
+  const personB = `${otherPerson}'s demographics are gender:${genderB}, age:${ageB}, and country:${countryB}. `;
   const relationship = isOwner ?
     `${thisPerson} describes ${otherPerson} as ${description}. ` :
     `${otherPerson} describes ${thisPerson} as ${description}. `;
-  const field1 = `Field translation should contain a translation into ${language}`;
-  const field2 = `Field explanation should contain an explanations written in ${language} for anything that may not have direct translations`;
+  const field1 = `Field translation should contain a translation into language with ISO code ${language}`;
+  const field2 = `Field explanation should contain a paragraph written in language with ISO code ${language} explaining anything that may not have direct translations`;
   const format = `Use the json format to respond. ${field1} ${field2}`;
   const translate = `Translate the following message: ${message}.`;
   const prompt = `${direction} ${personA} ${personB} ${relationship} ${format} ${translate}`;
@@ -147,12 +160,13 @@ async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, me
 exports.translateText = onCall(
   async (request) => {
 
-    const { messageId, chatId, thisPerson, otherPerson, isOwner, message } = request.data;
+    const { messageId, chatId, thisPerson, otherPerson, isOwner, message, language } = request.data;
 
     try {
-      const json = await translate(messageId, chatId, thisPerson, otherPerson, isOwner, message);
+      const json = await translate(messageId, chatId, thisPerson, otherPerson, isOwner, message, language);
       return { success: true, translation: json.translation, explanation: json.explanation };
     } catch (error) {
+      console.log(error)
       return { success: false, translation: "", explanation: "" };
     }
   }

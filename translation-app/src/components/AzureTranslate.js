@@ -12,7 +12,6 @@ const AzureTranslation = ({ message, language }) => {
     const fetchTranslation = async () => {
       if (message) {
         try {
-          console.log(language)
           const response = await axios.get(`https://api.mymemory.translated.net/get?q=${message.text}&langpair=en-GB|${language}`);
           console.log('Translation response:', response.data);
           setTranslation(response.data.responseData.translatedText);

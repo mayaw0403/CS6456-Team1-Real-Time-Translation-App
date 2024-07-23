@@ -23,6 +23,7 @@ const MessageForm = (props) => {
       SpeechRecognition.stopListening();
       setValue(transcript);
     } else {
+      console.log(localStorage.getItem("language"))
       SpeechRecognition.startListening({ language: localStorage.getItem("language")  });
     }
   }
