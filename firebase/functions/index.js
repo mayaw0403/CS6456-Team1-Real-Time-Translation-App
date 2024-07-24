@@ -145,13 +145,14 @@ async function translate(messageId, chatId, thisPerson, otherPerson, isOwner, me
   const relationship = isOwner ?
     `${thisPerson} describes ${otherPerson} as ${description}. ` :
     `${otherPerson} describes ${thisPerson} as ${description}. `;
-  const field1 = `Field translation should contain a translation into language with ISO code ${language}`;
-  const field2 = `Field explanation should contain a paragraph written in language with ISO code ${language} explaining anything that may not have direct translations`;
+  const field1 = `Field translation should contain a string with a translation into ${language}`;
+  const field2 = `Field explanation should contain a string written in ${language} explaining anything that may not have direct translations`;
   const format = `Use the json format to respond. ${field1} ${field2}`;
   const translate = `Translate the following message: ${message}.`;
   const prompt = `${direction} ${personA} ${personB} ${relationship} ${format} ${translate}`;
 
   const json = await runGemini(prompt);
+  console.log(json);
   db.collection('translations').doc(index).set(json);
 
   return json;

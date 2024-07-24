@@ -7,11 +7,13 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
 import { connectFunctionsEmulator } from "firebase/functions";
 import AzureTranslation from "./AzureTranslate";
+import { ConsoleSqlOutlined } from "@ant-design/icons";
+import languages from "./languages";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const functions = getFunctions(app);
-connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+// connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 const translateImage = httpsCallable(functions, "translateImage");
 const translateText = httpsCallable(functions, "translateText");
 
@@ -65,9 +67,9 @@ const TheirTranslation = ({ lastMessage, message, isOwner, thisPerson, activeCha
             otherPerson: otherPerson,
             isOwner: isOwner,
             message: message.text,
-            language: language
+            language: languages[language]
           });
-
+          console.log(resp);
           if (resp.data.success === false) {
             setFailed(true);
           } else {

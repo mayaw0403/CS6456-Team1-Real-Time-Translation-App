@@ -12,7 +12,7 @@ import { Avatar } from "react-chat-engine";
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const functions = getFunctions(app);
-connectFunctionsEmulator(functions, '127.0.0.1', 5001);
+// connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 const setProfile = httpsCallable(functions, "setProfile");
 const getProfile = httpsCallable(functions, "getProfile");
 
