@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-
+import React, { useContext, useState, useEffect } from 'react'
+import { simpleTranslation } from '../AzureTranslate'
 import { Button, deleteChat, ChatEngineContext, ChatSettingsTop, PeopleSettings, OptionsSettings } from 'react-chat-engine'
 import SettingsBlock from './SettingsBlock'
 
@@ -9,13 +9,24 @@ const ChatSettings = props => {
     const { conn, chats, activeChat } = useContext(ChatEngineContext)
     const chat = chats && chats[activeChat]
 
+
+    const [label, setLabel] = useState("Chat Settings")
+    const language = localStorage.getItem("language");
+    useEffect(() => {
+        async function translateLabel() {
+            const newLabel = await simpleTranslation(label, language);
+            setLabel(newLabel);
+        }
+        translateLabel();
+    });
+
     if (conn === null) return <div />
 
     return (
         <div style={styles.settingsContainer} className='ce-settings'>
             <div style={{ width: '100%', padding: '5%' }} className='ce-settings-container'>
                 
-                <div style={{display: "flex", justifyContent: "center"}}><h4><b>Chat Settings</b></h4></div>
+                <div style={{display: "flex", justifyContent: "center"}}><h4><b>{label}</b></h4></div>
                 {
                     props.renderPeopleSettings ?
                         props.renderPeopleSettings(conn, chat) :

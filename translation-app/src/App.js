@@ -5,8 +5,8 @@ import { ChatEngine } from "react-chat-engine";
 import { useState } from "react";
 import ChatFeed from "./components/ChatFeed";
 import LoginForm from "./components/LoginForm";
-import OptionsSettings from "./components/ChatOptions";
-import ChatSettings from "./components/ChatSettings";
+import OptionsSettings from "./components/ChatSettings/ChatOptions";
+import ChatSettings from "./components/ChatSettings/ChatSettings";
 import NavBar from "./components/NavBar";
 import UserSettings from "./components/UserSettings";
 

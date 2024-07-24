@@ -7,7 +7,6 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
 import { connectFunctionsEmulator } from "firebase/functions";
 import AzureTranslation from "./AzureTranslate";
-import { ConsoleSqlOutlined } from "@ant-design/icons";
 import languages from "./languages";
 
 // Initialize Firebase

@@ -1,6 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const simpleTranslation = async (text, language) => {
+  if (language === "en")
+  {
+    return text;
+  }
+  try {
+    const response = await axios.get(`https://api.mymemory.translated.net/get?q=${text}&langpair=en|${language}`);
+    return response.data.responseData.translatedText;
+  } catch (error) {
+    return text;
+  }
+};
+
 const AzureTranslation = ({ message, language }) => {
 
   const [translation, setTranslation] = useState('');
@@ -34,3 +47,4 @@ const AzureTranslation = ({ message, language }) => {
 };
 
 export default AzureTranslation;
+export {simpleTranslation};

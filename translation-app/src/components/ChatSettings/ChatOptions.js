@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useRef } from "react";
 import { ChatEngineContext } from "react-chat-engine";
 import SettingsBlock from "./SettingsBlock";
-import { firebaseConfig } from "./Config"
+import { firebaseConfig } from "../Config"
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
 import { connectFunctionsEmulator } from "firebase/functions";
