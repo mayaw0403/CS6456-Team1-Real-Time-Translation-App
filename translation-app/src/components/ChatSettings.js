@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 
-import { ChatEngineContext, ChatSettingsTop, PeopleSettings, OptionsSettings } from 'react-chat-engine'
+import { Button, deleteChat, ChatEngineContext, ChatSettingsTop, PeopleSettings, OptionsSettings } from 'react-chat-engine'
+import SettingsBlock from './SettingsBlock'
 
 
 const ChatSettings = props => {
@@ -12,13 +13,9 @@ const ChatSettings = props => {
 
     return (
         <div style={styles.settingsContainer} className='ce-settings'>
-            <div style={{ width: '90%', paddingLeft: '5%' }} className='ce-settings-container'>
-                {
-                    props.renderChatSettingsTop ?
-                        props.renderChatSettingsTop(conn, chat) :
-                        <ChatSettingsTop />
-                }
-
+            <div style={{ width: '100%', padding: '5%' }} className='ce-settings-container'>
+                
+                <div style={{display: "flex", justifyContent: "center"}}><h4><b>Chat Settings</b></h4></div>
                 {
                     props.renderPeopleSettings ?
                         props.renderPeopleSettings(conn, chat) :
@@ -30,6 +27,31 @@ const ChatSettings = props => {
                         props.renderOptionsSettings(conn, chat) :
                         <OptionsSettings />
                 }
+
+                <SettingsBlock id="ce-options-drop-down" label="Rename Chat">
+                    <div style={{ paddingBottom: "10px" }}>
+                        {
+                            props.renderChatSettingsTop ?
+                                props.renderChatSettingsTop(conn, chat) :
+                                <ChatSettingsTop />
+                        }
+                    </div>
+                </SettingsBlock>
+
+                {conn && chat && conn.userName === chat.admin.username && (
+                    <SettingsBlock id="ce-options-drop-down" label="Delete">
+                        <Button
+                            value="Delete"
+                            theme="danger"
+                            icon="delete"
+                            id="ce-delete-chat-button"
+                            onClick={() =>
+                                deleteChat(conn, chat.id, (data) => { })
+                            }
+                            style={{ width: "100%", marginBottom: "12px" }}
+                        />
+                    </SettingsBlock>
+                )}
             </div>
         </div>
     )

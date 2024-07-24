@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { firebaseConfig } from "./Config"
 
 import { getFunctions, httpsCallable } from "firebase/functions";
@@ -24,6 +24,9 @@ const UserSettings = () => {
     const [age, setAge] = useState("");
     const [language, setLanguage] = useState("");
     const [country, setCountry] = useState("");
+    const [saved, setSaved] = useState(false);
+    
+    const timeoutIdRef = useRef();
 
     const handleGenderChange = (e) => {
         setGender(e.target.value);
@@ -37,17 +40,22 @@ const UserSettings = () => {
         setCountry(e.target.value);
     };
 
+
     const handleSubmit = () => {
 
         setProfile({ username: localStorage.getItem("username"), gender: gender, age: age, language: language, country: country });
+        setSaved(true);
+        clearTimeout(timeoutIdRef.current);
+        timeoutIdRef.current = setTimeout(() => {
+            setSaved(false);
+        }, 3000);
         localStorage.setItem("language", language);
     };
 
     useEffect(() => {
         async function fetchData() {
             const resp = await getProfile({ username: username });
-            if (resp.data.language === "")
-            {
+            if (resp.data.language === "") {
                 const browserLang = navigator.language || navigator.userLanguage;
                 resp.data.language = browserLang.split("-")[0];
             }
@@ -86,6 +94,7 @@ const UserSettings = () => {
                                 </option>
                                 <option value="female">Female</option>
                                 <option value="male">Male</option>
+                                <option value="other">Other</option>
                             </select>
                         </label>
 
@@ -137,7 +146,7 @@ const UserSettings = () => {
             </form>
             <div style={styles.center}>
                 <button onClick={handleSubmit} style={styles.submit}>
-                    Submit
+                    {saved ? "Saved!" : "Submit"}
                 </button>
             </div>
         </div>

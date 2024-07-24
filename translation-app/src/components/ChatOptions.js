@@ -1,10 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Button, deleteChat, ChatEngineContext } from "react-chat-engine";
+import React, { useContext, useEffect, useState, useRef } from "react";
+import { ChatEngineContext } from "react-chat-engine";
 import SettingsBlock from "./SettingsBlock";
 import { firebaseConfig } from "./Config"
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
 import { connectFunctionsEmulator } from "firebase/functions";
+import TextareaAutosize from 'react-textarea-autosize';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -19,6 +20,9 @@ const OptionsSettings = () => {
 
 
     const [description, setDescription] = useState("");
+    const [saved, setSaved] = useState(false);
+
+    const timeoutIdRef = useRef();
 
     const handleChange = (e) => {
         setDescription(e.target.value);
@@ -26,6 +30,11 @@ const OptionsSettings = () => {
 
     const handleSubmit = (e) => {
         fireSetDescription({ chatId: activeChat, description: description });
+        setSaved(true);
+        clearTimeout(timeoutIdRef.current);
+        timeoutIdRef.current = setTimeout(() => {
+            setSaved(false);
+        }, 3000);
     };
 
     useEffect(() => {
@@ -38,38 +47,27 @@ const OptionsSettings = () => {
     }, [activeChat]);
 
     if (!chat || !conn || conn === null) return <></>;
-    
+
     return (
         <div style={{ borderTop: "1px solid #f0f0f0" }}>
-            <SettingsBlock id="ce-options-drop-down" label="Options">
+            <SettingsBlock id="ce-options-drop-down" label="AI Customization">
                 <div>
                     <div style={{ height: "8px" }} />
-                    {conn && chat && conn.userName === chat.admin.username && (
-                        <Button
-                            value="Delete"
-                            theme="danger"
-                            icon="delete"
-                            id="ce-delete-chat-button"
-                            onClick={() =>
-                                deleteChat(conn, chat.id, (data) => { })
-                            }
-                            style={{ width: "100%", marginBottom: "12px" }}
-                        />
-                    )}
+                    <div style={{ paddingBottom: "10px" }}>
 
-                    <div>
                         <label style={styles.label}>
-                            Describe your relationship to this individual
-                            <input
+                            Optional: Describe how you know this person
+                            <TextareaAutosize
+                                maxRows={5}
+                                defaultValue="Just a single line..."
                                 style={styles.input}
-                                value={description}
                                 onChange={handleChange}
+                                value={description}
                             />
                         </label>
-
                         <div style={styles.center}>
                             <button onClick={handleSubmit} style={styles.submit}>
-                                Submit
+                                {saved ? "Saved!" : "Submit"}
                             </button>
                         </div>
                     </div>
