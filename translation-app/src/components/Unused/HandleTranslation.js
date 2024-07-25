@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
-import AzureTranslation from "./AzureTranslate"; // Import your translation components
-import TheirTranslation from "./TheirTranslation"; // Import your translation components
+import AzureTranslation from "../AzureTranslate"; // Import your translation components
+import TheirTranslation from "../TheirTranslation"; // Import your translation components
 
 const HandleTranslation = ({ message, messages, lastMessageKey, isChatOpen }) => {
     useEffect(() => {

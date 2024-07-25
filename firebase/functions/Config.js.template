@@ -1,0 +1,15 @@
+// Firebase API (Copy from firebase)
+const firebaseConfig = {
+  apiKey: YOUR_API_KEY,
+  authDomain: YOUR_AUTH_DOMAIN,
+  projectId: YOUR_PROJECT_ID,
+  storageBucket: YOUR_STORAGE_BUKKET,
+  messagingSenderId: YOUR_SENDER_ID,
+  appId: YOUR_APP_ID
+};
+
+// Gemini API
+const GEMINI_KEY = YOUR_GEMINI_API_KEY;
+
+exports.GEMINI_KEY = GEMINI_KEY;
+exports.firebaseConfig = firebaseConfig;

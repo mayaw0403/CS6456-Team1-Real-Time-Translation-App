@@ -1,10 +1,8 @@
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { firebaseConfig } from "./Config"
-
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { initializeApp } from "firebase/app";
-import { connectFunctionsEmulator } from "firebase/functions";
-
+// import { connectFunctionsEmulator } from "firebase/functions";
 import countryList from "react-select-country-list";
 import languages from "./languages";
 import { Avatar } from "react-chat-engine";
@@ -15,7 +13,6 @@ const functions = getFunctions(app);
 // connectFunctionsEmulator(functions, '127.0.0.1', 5001);
 const setProfile = httpsCallable(functions, "setProfile");
 const getProfile = httpsCallable(functions, "getProfile");
-
 
 const UserSettings = () => {
     const username = localStorage.getItem("username");
