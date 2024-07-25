@@ -3,7 +3,7 @@
 Welcome to LinguaLink! Our application facilitates interaction between people speaking different languages in real-time. Whether you're chatting with friends, collaborating with colleagues, or exploring new cultures, our app breaks down language barriers and brings people closer together.
 
 ## 🌐 Team Website
-Check out our team website for more information and updates: [LinguaLink](https://sites.google.com/view/real-timetranslationapp/home)
+Check out our team website for more information about our design process: [LinguaLink](https://sites.google.com/view/real-timetranslationapp/home)
 
 ## 📂 Project Structure
 - **translation-app**: Contains our React application.
@@ -35,7 +35,7 @@ Check out our team website for more information and updates: [LinguaLink](https:
 
 2. Navigate to the translation-app folder and install dependencies:
     ```bash
-    cd real-time-translation-app/translation-app
+    cd translation-app
     npm install
     ```
 
@@ -53,7 +53,7 @@ Check out our team website for more information and updates: [LinguaLink](https:
 
 3. Navigate to the translation-app components folder and enter keys into Config
     ```bash
-    cd real-time-translation-app/translation-app/src/components
+    cd translation-app/src/components
     // Edit keys in Config.js.template
     mv Config.js.template Config.js
     ```
@@ -67,16 +67,16 @@ Check out our team website for more information and updates: [LinguaLink](https:
 
 ## 🎉 Usage
 
-1. Start the React application:
+1. Deploy Firebase functions:
     ```bash
-    cd translation-app
-    npm start
+    cd firebase
+    firebase deploy --only functions
     ```
 
-2. Deploy Firebase functions:
+2. Start the React application:
     ```bash
-    cd ../firebase
-    firebase deploy --only functions
+    cd ../translation-app
+    npm start
     ```
 
 3. Access the app at `http://localhost:3000` and start chatting!
