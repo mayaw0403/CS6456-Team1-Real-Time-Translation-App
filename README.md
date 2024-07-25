@@ -1,9 +1,9 @@
 # LinguaLink: Real-Time Translation Chat App
 
-Welcome to the LinguaLink App! Our application facilitates interaction between people speaking different languages in real-time. Whether you're chatting with friends, collaborating with colleagues, or exploring new cultures, our app breaks down language barriers and brings people closer together.
+Welcome to LinguaLink! Our application facilitates interaction between people speaking different languages in real-time. Whether you're chatting with friends, collaborating with colleagues, or exploring new cultures, our app breaks down language barriers and brings people closer together.
 
 ## 🌐 Team Website
-Check out our team website for more information and updates: [Real-Time Translation App](https://sites.google.com/view/real-timetranslationapp/home)
+Check out our team website for more information and updates: [LinguaLink](https://sites.google.com/view/real-timetranslationapp/home)
 
 ## 📂 Project Structure
 - **translation-app**: Contains our React application.
@@ -24,13 +24,13 @@ Check out our team website for more information and updates: [Real-Time Translat
 - **Gemini**: For advanced translation capabilities.
 
 ## 📸 Screenshots
-![Screenshot1](screenshots/DemoScreenshot.png)
+![Screenshot](screenshots/DemoScreenshot.png)
 
 ## 🔧 Installation
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/real-time-translation-app.git
+    git clone https://github.com/mayaw0403/CS6456-Team1-Real-Time-Translation-App.git
     ```
 
 2. Navigate to the translation-app folder and install dependencies:
@@ -45,18 +45,20 @@ Check out our team website for more information and updates: [Real-Time Translat
     npm install
     ```
 
-## 🔑 Api-Keys
+## 🔑 API Keys
 
-1. Create and obtain keys from [ChatEngine](https://chatengine.io/), [Firebase](https://firebase.google.com/), [Gemini](https://aistudio.google.com/app/apikey)
+1. Create and obtain API keys from [ChatEngine](https://chatengine.io/), [Firebase](https://firebase.google.com/), [Gemini](https://aistudio.google.com/app/apikey)
 
-2. Navigate to the translation-app components folder and enter keys into Config
+2. Create firebase store collections called `profiles` `descriptions` and `translations`.
+
+3. Navigate to the translation-app components folder and enter keys into Config
     ```bash
     cd real-time-translation-app/translation-app/src/components
     // Edit keys in Config.js.template
     mv Config.js.template Config.js
     ```
 
-3. Navigate to the firebase functions folder and enter keys into Config
+4. Navigate to the firebase functions folder and enter keys into Config
     ```bash
     cd ../../../firebase/functions
     // Edit keys in Config.js.template
@@ -81,4 +83,4 @@ Check out our team website for more information and updates: [Real-Time Translat
 
 ---
 
-Thank you for checking out our project! We hope our Real-Time Translation Chat App helps you communicate seamlessly across different languages.
+Thank you for checking out our project! We hope our LinguaLink App helps you communicate seamlessly across different languages.
